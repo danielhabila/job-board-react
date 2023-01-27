@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
 import UploadImage from "../images/upload.jpg";
 import Footer from "../partials/Footer";
 import Header from "../partials/Header";
@@ -39,7 +38,7 @@ function PostAJob() {
                   {/* Group #1 */}
                   <div className="py-6">
                     <div className="text-lg font-bold text-gray-800 mb-5">
-                      <span className="text-indigo-500">1.</span> The role
+                      <span className="text-myred">1.</span> The role
                     </div>
                     <div className="space-y-4">
                       <div>
@@ -47,10 +46,10 @@ function PostAJob() {
                           className="block text-sm font-medium mb-1"
                           htmlFor="position"
                         >
-                          Position Name <span className="text-red-500">*</span>
+                          Job Title <span className="text-red-500">*</span>
                         </label>
                         <input
-                          id="position"
+                          id="job-title"
                           className="form-input w-full"
                           type="text"
                           required
@@ -62,18 +61,33 @@ function PostAJob() {
                           className="block text-sm text-gray-800 font-medium mb-1"
                           htmlFor="role"
                         >
-                          Role <span className="text-rose-500">*</span>
+                          Job Type <span className="text-rose-500">*</span>
                         </label>
                         <select
-                          id="role"
+                          id="commitment"
+                          className="form-select text-sm py-2 w-full mb-2"
+                          required
+                        >
+                          <option>Full-time</option>
+                          <option>Part-time</option>
+                        </select>
+                        <select
+                          id="flexibility"
+                          className="form-select text-sm py-2 w-full mb-2"
+                          required
+                        >
+                          <option>In-person</option>
+                          <option>Remote</option>
+                          <option>Hybrid</option>
+                        </select>
+                        <select
+                          id="contract"
                           className="form-select text-sm py-2 w-full"
                           required
                         >
-                          <option>Programming</option>
-                          <option>Design</option>
-                          <option>Management / Finance</option>
-                          <option>Customer Support</option>
-                          <option>Sales / Marketing</option>
+                          <option>Permanent</option>
+                          <option>Contract</option>
+                          <option>Casual</option>
                         </select>
                       </div>
                       <div>
@@ -133,7 +147,7 @@ function PostAJob() {
                   {/* Group #2 */}
                   <div className="py-6">
                     <div className="text-lg font-bold text-gray-800 mb-5">
-                      <span className="text-indigo-500">2.</span> Your company
+                      <span className="text-myred">2.</span> Your company
                     </div>
                     <div className="space-y-4">
                       <div>
@@ -145,6 +159,21 @@ function PostAJob() {
                         </label>
                         <input
                           id="name"
+                          className="form-input w-full"
+                          type="text"
+                          required
+                          placeholder="E.g., Acme Inc."
+                        />
+                      </div>
+                      <div>
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="website-url"
+                        >
+                          Website URL <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          id="website-url"
                           className="form-input w-full"
                           type="text"
                           required
@@ -170,7 +199,7 @@ function PostAJob() {
                           className="block text-sm font-medium mb-1"
                           htmlFor="file"
                         >
-                          Company Logo{" "}
+                          Company Logo
                           <span className="text-gray-500">(optional)</span>
                         </label>
                         <div className="flex items-center">
@@ -185,7 +214,7 @@ function PostAJob() {
                             <input
                               id="file"
                               type="file"
-                              className="block w-full text-sm text-gray-500 file:mr-4 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-indigo-500 file:text-white hover:file:bg-indigo-600 transition duration-150 ease-in-out cursor-pointer"
+                              className="block w-full text-sm text-gray-500 file:mr-4 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-black file:text-white hover:file:bg-black/70 transition duration-150 ease-in-out cursor-pointer"
                             />
                           </div>
                         </div>
@@ -196,8 +225,8 @@ function PostAJob() {
                   {/* Group #3 */}
                   <div className="py-6">
                     <div className="text-lg font-bold text-gray-800 mb-5">
-                      <span className="text-indigo-500">3.</span> Select add-ons
-                      and pay
+                      <span className="text-myred">3.</span> Select add-ons and
+                      pay
                     </div>
                     <div className="space-y-4">
                       <button
@@ -334,7 +363,7 @@ function PostAJob() {
                       </button>
                     </div>
                     <div className="mt-6">
-                      <button className="btn w-full text-white bg-indigo-500 hover:bg-indigo-600 shadow-sm">
+                      <button className="btn w-full text-white bg-myred hover:bg-red-600 shadow-sm">
                         Pay Now - $499
                       </button>
                     </div>
