@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import Avatar from "../images/join-avatar.jpg";
-
 function SignUp() {
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
