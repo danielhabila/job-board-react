@@ -23,12 +23,15 @@ const requireAuth = async (req, res, next) => {
     //decode the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
+    //check expiration
+    if (Date.now() > decoded.exp) return res.sendStatus(401);
+
     //find the right user using decoded subject
-    const user = await user.findById(decoded.subject);
-    if (!user) return res.sendStatus(401);
+    const userById = await user.findById(decoded.subject);
+    if (!userById) return res.sendStatus(401);
 
     //attach user to req
-    req.user = user;
+    req.userById = userById;
 
     next();
   } catch (error) {

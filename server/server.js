@@ -1,6 +1,5 @@
 import express from "express";
 import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
 import bodyParser from "body-parser";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
@@ -15,7 +14,12 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 dotenv.config();
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 mongoose.set("strictQuery", false);
 mongoose.connect(`${process.env.MONGODB_URL}`);
@@ -70,9 +74,18 @@ app.post("/login", async (req, res) => {
     console.log(error);
   }
 });
-app.get("/logout", (req, res) => {});
+app.get("/logout", (req, res) => {
+  try {
+    res.clearCookie("authorization");
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+});
 
 app.get("/checkAuth", requireAuth, (req, res) => {
+  console.log(req.userById);
   res.sendStatus(200);
 });
 
