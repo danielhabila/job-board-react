@@ -127,11 +127,6 @@ function SignUp() {
                     className="border-t border-gray-200 grow mr-3"
                     aria-hidden="true"
                   />
-                  <div className="text-sm text-gray-500 italic">or</div>
-                  <div
-                    className="border-t border-gray-200 grow ml-3"
-                    aria-hidden="true"
-                  />
                 </div>
                 <form>
                   <div className="text-center">
