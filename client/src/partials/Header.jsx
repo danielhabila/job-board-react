@@ -28,7 +28,7 @@ function Header() {
               </li>
               <li className="ml-3">
                 <Link
-                  className="btn-sm text-white bg-[#EF4444]  hover:bg-red-700 w-full shadow-sm"
+                  className="btn-sm text-white bg-myred  hover:bg-red-700 w-full shadow-sm"
                   to="/post-a-job"
                 >
                   Post job <span className="max-md:hidden">- $499</span>
