@@ -3,10 +3,97 @@ import { Link } from "react-router-dom";
 import UploadImage from "../images/upload.jpg";
 import Footer from "../partials/Footer";
 import Header from "../partials/Header";
+import axios from "axios";
 
 function PostAJob() {
   const [stick, setStick] = useState(false);
   const [highlight, setHighlight] = useState(true);
+  const [selectedOption, setSelectedOption] = useState("exact");
+
+  //salary option radio
+  const handleSalaryOptionChange = (option) => {
+    setSelectedOption(option);
+  };
+
+  const [file, setFile] = useState(null);
+
+  const handleFileSelect = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  // collecting Post job data
+  const [formData, setFormData] = useState({
+    jobTitle: "",
+    companyName: "",
+    // location: "",
+    jobDescription: "",
+    salaryPrecise: "",
+    salaryRange: {
+      min: "",
+      max: "",
+    },
+    jobType: {
+      commitment: "Full-time",
+      flexibility: "In-person",
+      contract: "Permanent",
+    },
+    websiteURL: "",
+    contactEmail: "",
+    applyURL: "",
+  });
+
+  const handleChange = (event) => {
+    if (
+      event.target.name === "commitment" ||
+      event.target.name === "flexibility" ||
+      event.target.name === "contract"
+    ) {
+      setFormData({
+        ...formData,
+        jobType: {
+          ...formData.jobType,
+          [event.target.name]: event.target.value,
+        },
+      });
+    } else if (event.target.name === "min" || event.target.name === "max") {
+      setFormData({
+        ...formData,
+        salaryRange: {
+          ...formData.salaryRange,
+          [event.target.name]: event.target.value,
+        },
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [event.target.name]: event.target.value,
+      });
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      // const formDataWithFile = new FormData();
+      // formDataWithFile.append("file", file);
+      // Object.keys(formData).forEach((key) => {
+      //   formDataWithFile.append(key, formData[key]);
+      // });
+
+      const response = await axios.post("/CreateJob", formData);
+      if (response.status === 201) {
+        alert("Job posted successfully!");
+        // const inputFields = document.querySelectorAll(
+        //   "input[type='text'],input[type='number'], textarea"
+        // );
+        // inputFields.forEach((inputField) => (inputField.value = ""));
+      } else {
+        throw new Error(response.status);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <main>
@@ -33,7 +120,7 @@ function PostAJob() {
               </div>
 
               {/* Form */}
-              <form className="mb-12">
+              <form className="mb-12" onSubmit={handleSubmit}>
                 <div className="divide-y divide-gray-200 -my-6">
                   {/* Group #1 */}
                   <div className="py-6">
@@ -52,6 +139,8 @@ function PostAJob() {
                           id="job-title"
                           className="form-input w-full"
                           type="text"
+                          onChange={handleChange}
+                          name="jobTitle"
                           required
                           placeholder="A320 Captain"
                         />
@@ -65,7 +154,9 @@ function PostAJob() {
                         </label>
                         <select
                           id="commitment"
+                          name="commitment"
                           className="form-select text-sm py-2 w-full mb-2"
+                          onChange={handleChange}
                           required
                         >
                           <option>Full-time</option>
@@ -73,6 +164,7 @@ function PostAJob() {
                         </select>
                         <select
                           id="flexibility"
+                          name="flexibility"
                           className="form-select text-sm py-2 w-full mb-2"
                           required
                         >
@@ -82,6 +174,7 @@ function PostAJob() {
                         </select>
                         <select
                           id="contract"
+                          name="contract"
                           className="form-select text-sm py-2 w-full"
                           required
                         >
@@ -90,25 +183,7 @@ function PostAJob() {
                           <option>Casual</option>
                         </select>
                       </div>
-                      <div>
-                        <label
-                          className="block text-sm text-gray-800 font-medium mb-1"
-                          htmlFor="commitment"
-                        >
-                          Commitment <span className="text-rose-500">*</span>
-                        </label>
-                        <select
-                          id="commitment"
-                          className="form-select text-sm py-2 w-full"
-                          required
-                        >
-                          <option>Full-time</option>
-                          <option>Part-time</option>
-                          <option>Intership</option>
-                          <option>Contract / Freelance</option>
-                          <option>Co-founder</option>
-                        </select>
-                      </div>
+
                       <div>
                         <label
                           className="block text-sm text-gray-800 font-medium mb-1"
@@ -119,26 +194,82 @@ function PostAJob() {
                         </label>
                         <textarea
                           id="description"
+                          name="jobDescription"
                           className="form-textarea text-sm py-2 w-full"
-                          rows="4"
+                          rows="6"
+                          onChange={handleChange}
                           required
                         />
                       </div>
+
                       <div>
                         <label
                           className="block text-sm font-medium mb-1"
                           htmlFor="salary"
                         >
-                          Salary{" "}
-                          <span className="text-gray-500">(optional)</span>
+                          Salary (CAD)<span className="text-rose-500">*</span>
                         </label>
-                        <input
-                          id="salary"
-                          className="form-input w-full"
-                          type="text"
-                        />
+                        {/*  ---------------------*/}
+                        <div className="my-2 space-x-4 flex">
+                          <div className="flex items-center">
+                            <input
+                              type="radio"
+                              className="h-4 w-4 border-gray-300"
+                              checked={selectedOption === "exact"}
+                              onChange={() => handleSalaryOptionChange("exact")}
+                            />
+                            <label className="ml-3 block text-sm font-medium ">
+                              Exact
+                            </label>
+                          </div>
+
+                          <div className="flex items-center">
+                            <input
+                              type="radio"
+                              className="h-4 w-4 border-gray-300"
+                              checked={selectedOption === "range"}
+                              onChange={() => handleSalaryOptionChange("range")}
+                            />
+                            <label className="ml-3 block text-sm font-medium ">
+                              Range
+                            </label>
+                          </div>
+                        </div>
+                        {/* ------------------------ */}
+                        <div>
+                          {selectedOption === "exact" ? (
+                            <input
+                              id="salary"
+                              name="salaryPrecise"
+                              onChange={handleChange}
+                              className="form-input w-full"
+                              type="text"
+                              placeholder="40,000"
+                            />
+                          ) : (
+                            <div className="flex gap-2">
+                              <input
+                                id="salary"
+                                name="min"
+                                onChange={handleChange}
+                                type="text"
+                                className="form-input block w-full "
+                                placeholder="Minimum per year"
+                              />
+                              <input
+                                id="salary"
+                                name="max"
+                                onChange={handleChange}
+                                type="text"
+                                className="form-input block w-full "
+                                placeholder="Maximum per year"
+                              />
+                            </div>
+                          )}
+                        </div>
+
                         <div className="text-xs text-gray-500 italic mt-2">
-                          Example: “$100,000 - $170,000 USD”
+                          No need to enter $ sign
                         </div>
                       </div>
                     </div>
@@ -159,12 +290,14 @@ function PostAJob() {
                         </label>
                         <input
                           id="name"
+                          name="companyName"
+                          onChange={handleChange}
                           className="form-input w-full"
                           type="text"
                           required
-                          placeholder="E.g., Acme Inc."
                         />
                       </div>
+
                       <div>
                         <label
                           className="block text-sm font-medium mb-1"
@@ -173,11 +306,13 @@ function PostAJob() {
                           Website URL <span className="text-red-500">*</span>
                         </label>
                         <input
-                          id="website-url"
+                          id="websiteURL"
+                          name="websiteURL"
+                          onChange={handleChange}
                           className="form-input w-full"
                           type="text"
                           required
-                          placeholder="E.g., Acme Inc."
+                          placeholder="https://www.yourwebsite.com/"
                         />
                       </div>
                       <div>
@@ -185,10 +320,34 @@ function PostAJob() {
                           className="block text-sm font-medium mb-1"
                           htmlFor="email"
                         >
-                          Contact Email <span className="text-red-500">*</span>
+                          Primary Contact Email / Hiring Manager{" "}
+                          <span className="text-red-500">*</span>
                         </label>
                         <input
                           id="email"
+                          name="contactEmail"
+                          onChange={handleChange}
+                          className="form-input w-full"
+                          type="email"
+                          required
+                        />
+                        <div className="text-xs text-gray-500 italic mt-1">
+                          Stays private. We will send your receipt and
+                          confirmation email here.
+                        </div>
+                      </div>
+                      <div>
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="apply"
+                        >
+                          Application Link or Email{" "}
+                          <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          id="applyURL"
+                          name="applyURL"
+                          onChange={handleChange}
                           className="form-input w-full"
                           type="email"
                           required
@@ -199,7 +358,7 @@ function PostAJob() {
                           className="block text-sm font-medium mb-1"
                           htmlFor="file"
                         >
-                          Company Logo
+                          Company Logo {""}
                           <span className="text-gray-500">(optional)</span>
                         </label>
                         <div className="flex items-center">
@@ -215,6 +374,7 @@ function PostAJob() {
                               id="file"
                               type="file"
                               className="block w-full text-sm text-gray-500 file:mr-4 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-black file:text-white hover:file:bg-black/70 transition duration-150 ease-in-out cursor-pointer"
+                              onChange={handleFileSelect}
                             />
                           </div>
                         </div>
@@ -224,11 +384,11 @@ function PostAJob() {
 
                   {/* Group #3 */}
                   <div className="py-6">
-                    <div className="text-lg font-bold text-gray-800 mb-5">
+                    {/* <div className="text-lg font-bold text-gray-800 mb-5">
                       <span className="text-myred">3.</span> Select add-ons and
                       pay
-                    </div>
-                    <div className="space-y-4">
+                    </div> */}
+                    {/* <div className="space-y-4">
                       <button
                         className={`w-full text-left py-3 px-4 border rounded ${
                           stick
@@ -361,9 +521,12 @@ function PostAJob() {
                           </div>
                         </div>
                       </button>
-                    </div>
+                    </div> */}
                     <div className="mt-6">
-                      <button className="btn w-full text-white bg-myred hover:bg-red-600 shadow-sm">
+                      <button
+                        className="btn w-full text-white bg-myred hover:bg-red-600 shadow-sm"
+                        type="submit"
+                      >
                         Pay Now - $499
                       </button>
                     </div>

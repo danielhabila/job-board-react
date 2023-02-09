@@ -8,6 +8,7 @@ import postedjob from "./models/postedJob.js";
 import user from "./models/user.js";
 import cookieParser from "cookie-parser";
 import { createToken, requireAuth } from "./JWT.js";
+import multer from "multer";
 
 const app = express();
 app.use(bodyParser.json());
@@ -100,11 +101,23 @@ app.get("/ReadJob", (req, res) => {
   });
 });
 
+// Storage
+const storage = multer.memoryStorage();
+const upload = multer({ storage }).single("companyLogo");
+
 //Push jobs to DB
-app.post("/CreateJob", (req, res) => {
-  // code to handle creating a job listing
+app.post("/CreateJob", upload, (req, res) => {
   const newJob = req.body; // retrieve the data sent in the request body
 
+  // check if a file was uploaded
+  if (req.file) {
+    newJob.companyLogo = {
+      data: req.file.buffer,
+      contentType: req.file.mimetype,
+    };
+  }
+
+  // code to handle creating a job listing
   postedjob.create(newJob, (err, savedJob) => {
     if (err) {
       // handle the error
@@ -116,6 +129,6 @@ app.post("/CreateJob", (req, res) => {
   });
 });
 
-app.listen(6000, () => {
-  console.log("Server listening on port 6000");
+app.listen(4000, () => {
+  console.log("Server listening on port 4000");
 });
