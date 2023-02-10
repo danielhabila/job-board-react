@@ -10,22 +10,41 @@ function PostAJob() {
   const [highlight, setHighlight] = useState(true);
   const [selectedOption, setSelectedOption] = useState("exact");
 
-  //salary option radio
+  //salary option radio (either exact or range)
   const handleSalaryOptionChange = (option) => {
     setSelectedOption(option);
+
+    //clearing the value field of salaryPrecise if the selectedOption is "range"
+    if (option === "range") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        salaryPrecise: "",
+      }));
+    }
+    //clearing the value field of salaryRange if the selectedOption is "exact"
+    else if (option === "exact") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        salaryRange: {
+          min: "",
+          max: "",
+        },
+      }));
+    }
   };
 
   const [file, setFile] = useState(null);
 
   const handleFileSelect = (event) => {
     setFile(event.target.files[0]);
+    console.log(event);
   };
 
   // collecting Post job data
   const [formData, setFormData] = useState({
     jobTitle: "",
     companyName: "",
-    // location: "",
+    location: "",
     jobDescription: "",
     salaryPrecise: "",
     salaryRange: {
@@ -74,13 +93,29 @@ function PostAJob() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // const formDataWithFile = new FormData();
-      // formDataWithFile.append("file", file);
-      // Object.keys(formData).forEach((key) => {
-      //   formDataWithFile.append(key, formData[key]);
-      // });
+      const formDataWithFile = new FormData();
+      formDataWithFile.append("jobTitle", formData.jobTitle);
+      formDataWithFile.append("companyName", formData.companyName);
+      formDataWithFile.append("location", formData.location);
+      formDataWithFile.append("jobDescription", formData.jobDescription);
+      formDataWithFile.append("salaryPrecise", formData.salaryPrecise);
+      formDataWithFile.append("minSalary", formData.salaryRange.min);
+      formDataWithFile.append("maxSalary", formData.salaryRange.max);
+      formDataWithFile.append("commitment", formData.jobType.commitment);
+      formDataWithFile.append("flexibility", formData.jobType.flexibility);
+      formDataWithFile.append("contract", formData.jobType.contract);
+      formDataWithFile.append("websiteURL", formData.websiteURL);
+      formDataWithFile.append("contactEmail", formData.contactEmail);
+      formDataWithFile.append("applyURL", formData.applyURL);
+      if (file) {
+        formDataWithFile.append("companyLogo", file, file.name);
+      }
 
-      const response = await axios.post("/CreateJob", formData);
+      const response = await axios.post("/CreateJob", formDataWithFile, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       if (response.status === 201) {
         alert("Job posted successfully!");
         // const inputFields = document.querySelectorAll(
@@ -183,7 +218,22 @@ function PostAJob() {
                           <option>Casual</option>
                         </select>
                       </div>
-
+                      <div>
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="location"
+                        >
+                          Job Location <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          id="location"
+                          name="location"
+                          className="form-input w-full"
+                          type="text"
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
                       <div>
                         <label
                           className="block text-sm text-gray-800 font-medium mb-1"

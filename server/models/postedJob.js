@@ -3,20 +3,20 @@ import mongoose from "mongoose";
 const postedJobSchema = new mongoose.Schema({
   jobTitle: {
     type: String,
-    required: true,
+    required: false,
   },
 
   companyName: {
     type: String,
-    required: true,
+    required: false,
   },
-  // location: {
-  //   type: String,
-  //   required: true,
-  // },
+  location: {
+    type: String,
+    required: false,
+  },
   jobDescription: {
     type: String,
-    required: true,
+    required: false,
   },
   salaryPrecise: {
     type: Number,
@@ -35,34 +35,38 @@ const postedJobSchema = new mongoose.Schema({
   jobType: {
     commitment: {
       type: String,
-      required: true,
+      required: false,
     },
     flexibility: {
       type: String,
-      required: true,
+      required: false,
     },
     contract: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   websiteURL: {
     type: String,
-    required: true,
+    required: false,
   },
   contactEmail: {
     type: String,
-    required: true,
+    required: false,
   },
   applyURL: {
     type: String,
-    required: true,
+    required: false,
   },
   companyLogo: {
     data: Buffer,
-    type: String,
+    contentType: String,
     require: false,
   },
+  // companyLogo: {
+  //   data: { type: Buffer, required: false },
+  //   contentType: { type: String, required: false },
+  // },
 
   posted_date: { type: Date, default: Date.now },
 });
