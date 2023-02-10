@@ -99,8 +99,8 @@ function PostAJob() {
       formDataWithFile.append("location", formData.location);
       formDataWithFile.append("jobDescription", formData.jobDescription);
       formDataWithFile.append("salaryPrecise", formData.salaryPrecise);
-      formDataWithFile.append("minSalary", formData.salaryRange.min);
-      formDataWithFile.append("maxSalary", formData.salaryRange.max);
+      formDataWithFile.append("min", formData.salaryRange.min);
+      formDataWithFile.append("max", formData.salaryRange.max);
       formDataWithFile.append("commitment", formData.jobType.commitment);
       formDataWithFile.append("flexibility", formData.jobType.flexibility);
       formDataWithFile.append("contract", formData.jobType.contract);
