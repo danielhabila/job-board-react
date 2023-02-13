@@ -4,12 +4,10 @@ import UploadImage from "../images/upload.jpg";
 import Footer from "../partials/Footer";
 import Header from "../partials/Header";
 import axios from "axios";
+import Pricing from "../partials/Pricing";
 
 function PostAJob() {
-  const [stick, setStick] = useState(false);
-  const [highlight, setHighlight] = useState(true);
   const [selectedOption, setSelectedOption] = useState("exact");
-
   //salary option radio (either exact or range)
   const handleSalaryOptionChange = (option) => {
     setSelectedOption(option);
@@ -93,6 +91,8 @@ function PostAJob() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      // const paymentResult = await checkout(event); // Trigger the payment process
+      // if (paymentResult) {
       const formDataWithFile = new FormData();
       formDataWithFile.append("jobTitle", formData.jobTitle);
       formDataWithFile.append("companyName", formData.companyName);
@@ -116,6 +116,7 @@ function PostAJob() {
           "Content-Type": "multipart/form-data",
         },
       });
+      // }
       if (response.status === 201) {
         alert("Job posted successfully!");
         // const inputFields = document.querySelectorAll(
@@ -155,7 +156,10 @@ function PostAJob() {
               </div>
 
               {/* Form */}
-              <form className="mb-12" onSubmit={handleSubmit}>
+              <form
+                className="mb-12"
+                // onSubmit={handleSubmit}
+              >
                 <div className="divide-y divide-gray-200 -my-6">
                   {/* Group #1 */}
                   <div className="py-6">
@@ -427,160 +431,22 @@ function PostAJob() {
                               onChange={handleFileSelect}
                             />
                           </div>
+                          <button
+                            type="button"
+                            className="ml-2 px-3 py-1.5 text-sm font-medium text-gray-500 rounded-full hover:bg-gray-100 hover:text-gray-600 transition duration-150 ease-in-out cursor-pointer"
+                            onClick={() => {
+                              setFile(null);
+                            }}
+                          >
+                            Remove
+                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Group #3 */}
-                  <div className="py-6">
-                    {/* <div className="text-lg font-bold text-gray-800 mb-5">
-                      <span className="text-myred">3.</span> Select add-ons and
-                      pay
-                    </div> */}
-                    {/* <div className="space-y-4">
-                      <button
-                        className={`w-full text-left py-3 px-4 border rounded ${
-                          stick
-                            ? "border-indigo-500 ring-2 ring-indigo-200"
-                            : "border-gray-200"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setStick(!stick);
-                        }}
-                      >
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <div className="text-sm text-gray-800 font-medium mb-1">
-                              Stick your post to stay on top (+$99)
-                            </div>
-                            <div className="text-sm text-gray-500 italic">
-                              4x more views
-                            </div>
-                          </div>
-                          <div className="shrink-0 rounded-full border border-gray-200 ml-3">
-                            {stick ? (
-                              <svg
-                                className="fill-indigo-500"
-                                width="32"
-                                height="32"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M21 15h-4v-4a1 1 0 0 0-2 0v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2Z" />
-                              </svg>
-                            ) : (
-                              <svg
-                                x-show="checked"
-                                className="fill-teal-500"
-                                width="32"
-                                height="32"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="m20.28 12.28-6.292 6.294-2.293-2.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0-1.414-1.414Z" />
-                              </svg>
-                            )}
-                          </div>
-                        </div>
-                      </button>
-                      <button
-                        className={`w-full text-left py-3 px-4 border rounded ${
-                          stick
-                            ? "border-indigo-500 ring-2 ring-indigo-200"
-                            : "border-gray-200"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setStick(!stick);
-                        }}
-                      >
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <div className="text-sm text-gray-800 font-medium mb-1">
-                              Stick your post to stay on top (+$299)
-                            </div>
-                            <div className="text-sm text-gray-500 italic">
-                              4x more views
-                            </div>
-                          </div>
-                          <div className="shrink-0 rounded-full border border-gray-200 ml-3">
-                            {stick ? (
-                              <svg
-                                className="fill-indigo-500"
-                                width="32"
-                                height="32"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M21 15h-4v-4a1 1 0 0 0-2 0v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2Z" />
-                              </svg>
-                            ) : (
-                              <svg
-                                x-show="checked"
-                                className="fill-teal-500"
-                                width="32"
-                                height="32"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="m20.28 12.28-6.292 6.294-2.293-2.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0-1.414-1.414Z" />
-                              </svg>
-                            )}
-                          </div>
-                        </div>
-                      </button>
-                      <button
-                        className={`w-full text-left py-3 px-4 border rounded ${
-                          highlight
-                            ? "border-indigo-500 ring-2 ring-indigo-200"
-                            : "border-gray-200"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setHighlight(!highlight);
-                        }}
-                      >
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <div className="text-sm text-gray-800 font-medium mb-1">
-                              Highlight your post in yellow (+$49)
-                            </div>
-                            <div className="text-sm text-gray-500 italic">
-                              2x more views
-                            </div>
-                          </div>
-                          <div className="shrink-0 rounded-full border border-gray-200 ml-3">
-                            {highlight ? (
-                              <svg
-                                className="fill-indigo-500"
-                                width="32"
-                                height="32"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M21 15h-4v-4a1 1 0 0 0-2 0v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2Z" />
-                              </svg>
-                            ) : (
-                              <svg
-                                x-show="checked"
-                                className="fill-teal-500"
-                                width="32"
-                                height="32"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="m20.28 12.28-6.292 6.294-2.293-2.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0-1.414-1.414Z" />
-                              </svg>
-                            )}
-                          </div>
-                        </div>
-                      </button>
-                    </div> */}
-                    <div className="mt-6">
-                      <button
-                        className="btn w-full text-white bg-myred hover:bg-red-600 shadow-sm"
-                        type="submit"
-                      >
-                        Pay Now - $499
-                      </button>
-                    </div>
-                  </div>
+                  {/* Group #3 *****************************************************/}
+                  <Pricing />
                 </div>
               </form>
             </div>

@@ -1,125 +1,203 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Pricing() {
-  const [annual, setAnnual] = useState(true);
+  const [stick, setStick] = useState(false);
+  const [stickOneWeek, setStickOneWeek] = useState(false);
+  const [highlight, setHighlight] = useState(false);
+
+  const [selectedAddOns, setSelectedAddOns] = useState([]);
+  const [totalCost, setTotalCost] = useState(499);
+
+  const handleAddOnSelection = (addOn) => {
+    if (selectedAddOns.includes(addOn)) {
+      setSelectedAddOns(selectedAddOns.filter((item) => item !== addOn));
+    } else {
+      setSelectedAddOns([...selectedAddOns, addOn]);
+    }
+  };
+
+  const checkout = async (event) => {
+    try {
+      event.preventDefault();
+      console.log(totalCost);
+      const response = await axios.post("http://localhost:4000/checkout", {
+        totalCost,
+        quantity: 1,
+      });
+      if (response.data.url) {
+        window.location.assign(response.data.url); // Forwarding user to Stripe
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    let addOnCost = 0;
+    selectedAddOns.forEach((addOn) => {
+      if (addOn === "24 hour stick") {
+        addOnCost += 99;
+      } else if (addOn === "1 week stick") {
+        addOnCost += 199;
+      } else if (addOn === "highlight") {
+        addOnCost += 49;
+      }
+    });
+    setTotalCost(499 + addOnCost);
+  }, [selectedAddOns]);
 
   return (
-    <section className="relative border-t border-gray-100">
-      {/* Bg gradient */}
-      <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-gray-50 to-white h-1/2 pointer-events-none -z-10" aria-hidden="true" />
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="py-12 md:py-20">
-          {/* Section header */}
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-            <h2 className="h2 font-cabinet-grotesk">Become a member of the best creative community</h2>
-          </div>
-          {/* Pricing tables */}
-          <div>
-            {/* Pricing toggle */}
-            <div className="flex justify-center max-w-[18rem] m-auto mb-8 lg:mb-16">
-              <div className="relative flex w-full mx-6 p-1 bg-gray-200 rounded-full">
-                <span className="absolute inset-0 m-1 pointer-events-none" aria-hidden="true">
-                  <span className={`absolute inset-0 w-1/2 bg-white rounded-full shadow transform transition duration-150 ease-in-out ${annual ? 'translate-x-0' : 'translate-x-full'}`} />
-                </span>
-                <button className={`relative flex-1 text-sm font-medium p-1 transition duration-150 ease-in-out ${annual && 'text-gray-500'}`} onClick={() => setAnnual(true)}>Yearly <span className="text-green-500">-20%</span>
-                </button>
-                <button className={`relative flex-1 text-sm font-medium p-1 transition duration-150 ease-in-out ${annual && 'text-gray-500'}`} onClick={() => setAnnual(false)}>Monthly</button>
-              </div>
-            </div>
-            <div className="max-w-sm mx-auto grid gap-8 lg:grid-cols-2 lg:gap-6 items-start lg:max-w-3xl pt-4">
-              {/* Pricing table 1 */}
-              <div className="relative flex flex-col h-full p-6" data-aos="fade-right">
-                <div className="mb-6">
-                  <div className="font-cabinet-grotesk text-xl font-semibold mb-1">Starter</div>
-                  <div className="font-cabinet-grotesk inline-flex items-baseline mb-2">
-                    <span className="text-5xl font-bold">Free</span>
-                  </div>
-                  <div className="text-gray-500 mb-6">Explore the tool, save inspiration and create collections.</div>
-                  <Link className="btn text-white bg-blue-500 hover:bg-blue-600 w-full shadow-sm" to="/signup">Join The Community</Link>
-                </div>
-                <div className="font-medium mb-4">Features include:</div>
-                <ul className="text-gray-500 space-y-3 grow">
-                  <li className="flex items-center">
-                    <svg className="w-3 h-3 fill-current text-emerald-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Unlimited placeholder texts</span>
-                  </li>
-                  <li className="flex items-center">
-                    <svg className="w-3 h-3 fill-current text-emerald-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Consectetur adipiscing elit</span>
-                  </li>
-                  <li className="flex items-center">
-                    <svg className="w-3 h-3 fill-current text-emerald-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Excepteur sint occaecat cupidatat</span>
-                  </li>
-                  <li className="flex items-center">
-                    <svg className="w-3 h-3 fill-current text-emerald-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Officia deserunt mollit anim</span>
-                  </li>
-                </ul>
-              </div>
-              {/* Pricing table 2 */}
-              <div className="relative flex flex-col h-full p-6 bg-gray-800" data-aos="fade-left">
-                <div className="absolute top-0 right-0 mr-6 -mt-4">
-                  <div className="inline-flex items-center text-sm font-semibold py-1 px-4 text-emerald-600 bg-emerald-200 rounded-full">Most Popular</div>
-                </div>
-                <div className="mb-6">
-                  <div className="font-cabinet-grotesk text-xl text-gray-100 font-semibold mb-1">Business</div>
-                  <div className="font-cabinet-grotesk text-gray-100 inline-flex items-baseline mb-2">
-                    <span className="text-3xl font-medium text-gray-400">$</span>
-                    <span className="text-5xl font-bold">{annual ? '29' : '35'}</span>
-                    <span className="font-medium text-gray-400">/mo</span>
-                  </div>
-                  <div className="text-gray-400 mb-6">Get unlimited access to our new mood boarding tool.</div>
-                  <Link className="btn text-white bg-blue-500 hover:bg-blue-600 w-full shadow-sm" to="/signup">Start Free Trial</Link>
-                </div>
-                <div className="font-medium text-gray-100 mb-4">All free features, plus:</div>
-                <ul className="text-gray-400 space-y-3 grow">
-                  <li className="flex items-center">
-                    <svg className="w-3 h-3 fill-current text-emerald-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Unlimited placeholder texts</span>
-                  </li>
-                  <li className="flex items-center">
-                    <svg className="w-3 h-3 fill-current text-emerald-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Consectetur adipiscing elit</span>
-                  </li>
-                  <li className="flex items-center">
-                    <svg className="w-3 h-3 fill-current text-emerald-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Excepteur sint occaecat cupidatat</span>
-                  </li>
-                  <li className="flex items-center">
-                    <svg className="w-3 h-3 fill-current text-emerald-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Officia deserunt mollit anim</span>
-                  </li>
-                  <li className="flex items-center">
-                    <svg className="w-3 h-3 fill-current text-emerald-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Excepteur sint occaecat cupidatat</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="py-6">
+      <div className="text-lg font-bold text-gray-800 mb-5">
+        <span className="text-myred">3.</span> Select add-ons and pay
       </div>
-    </section>
+      <div className="space-y-4">
+        {/* Add-on button #1 *****************************************************/}
+        <button
+          className={`w-full text-left py-3 px-4 border rounded ${
+            stick
+              ? "border-green-300 ring-2 ring-green-300"
+              : " border-red-200 ring-1 ring-red-200"
+          }`}
+          onClick={(e) => {
+            e.preventDefault();
+            setStick(!stick);
+            handleAddOnSelection("24 hour stick");
+          }}
+        >
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-sm text-gray-800 font-medium mb-1">
+                Stick your post to stay on top for 24 hours (+$99)
+              </div>
+              <div className="text-sm text-gray-500 italic">4x more views</div>
+            </div>
+            <div className="shrink-0 rounded-full border border-gray-200 ml-3">
+              {stick ? (
+                <svg
+                  x-show="checked"
+                  className="fill-teal-500"
+                  width="32"
+                  height="32"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="m20.28 12.28-6.292 6.294-2.293-2.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0-1.414-1.414Z" />
+                </svg>
+              ) : (
+                <svg
+                  className="fill-indigo-500"
+                  width="32"
+                  height="32"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M21 15h-4v-4a1 1 0 0 0-2 0v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2Z" />
+                </svg>
+              )}
+            </div>
+          </div>
+        </button>
+        {/* Add-on button #2 *****************************************************/}
+        <button
+          className={`w-full text-left py-3 px-4 border rounded ${
+            stickOneWeek
+              ? "border-green-300 ring-2 ring-green-300"
+              : " border-red-200 ring-1 ring-red-200"
+          }`}
+          onClick={(e) => {
+            e.preventDefault();
+            setStickOneWeek(!stickOneWeek);
+            handleAddOnSelection("1 week stick");
+          }}
+        >
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-sm text-gray-800 font-medium mb-1">
+                Stick your post to stay on top for 1 week (+$299)
+              </div>
+              <div className="text-sm text-gray-500 italic">4x more views</div>
+            </div>
+            <div className="shrink-0 rounded-full border border-gray-200 ml-3">
+              {stickOneWeek ? (
+                <svg
+                  x-show="checked"
+                  className="fill-teal-500"
+                  width="32"
+                  height="32"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="m20.28 12.28-6.292 6.294-2.293-2.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0-1.414-1.414Z" />
+                </svg>
+              ) : (
+                <svg
+                  className="fill-indigo-500"
+                  width="32"
+                  height="32"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M21 15h-4v-4a1 1 0 0 0-2 0v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2Z" />
+                </svg>
+              )}
+            </div>
+          </div>
+        </button>
+        {/* Add-on button #3 *****************************************************/}
+        <button
+          className={`w-full text-left py-3 px-4 border rounded ${
+            highlight
+              ? "border-green-300 ring-2 ring-green-300"
+              : "border-red-200 ring-1 ring-red-200"
+          }`}
+          onClick={(e) => {
+            e.preventDefault();
+            setHighlight(!highlight);
+            handleAddOnSelection("highlight");
+          }}
+        >
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-sm text-gray-800 font-medium mb-1">
+                Highlight your post in yellow (+$49)
+              </div>
+              <div className="text-sm text-gray-500 italic">2x more views</div>
+            </div>
+            <div className="shrink-0 rounded-full border border-gray-200 ml-3">
+              {highlight ? (
+                <svg
+                  x-show="checked"
+                  className="fill-teal-500"
+                  width="32"
+                  height="32"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="m20.28 12.28-6.292 6.294-2.293-2.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0-1.414-1.414Z" />
+                </svg>
+              ) : (
+                <svg
+                  className="fill-indigo-500"
+                  width="32"
+                  height="32"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M21 15h-4v-4a1 1 0 0 0-2 0v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2Z" />
+                </svg>
+              )}
+            </div>
+          </div>
+        </button>
+        {/* END OF button #3 *****************************************************/}
+      </div>
+      <div className="mt-6">
+        <button
+          className="btn w-full text-white bg-myred hover:bg-red-600 shadow-sm"
+          // type="submit"
+          onClick={checkout}
+        >
+          Pay Now - ${totalCost}
+        </button>
+      </div>
+    </div>
   );
 }
 

@@ -104,24 +104,7 @@ app.get("/ReadJob", (req, res) => {
 //Push jobs to DB
 app.post("/CreateJob", upload.single("companyLogo"), (req, res) => {
   try {
-    const newJob = new postedjob({
-      // retrieve the data sent in the request body
-      jobTitle: req.body.jobTitle,
-      companyName: req.body.companyName,
-      location: req.body.location,
-      jobDescription: req.body.jobDescription,
-      salaryPrecise: req.body.salaryPrecise,
-      salaryRange: req.body.salaryRange,
-      jobType: req.body.jobType,
-      websiteURL: req.body.websiteURL,
-      contactEmail: req.body.contactEmail,
-      applyURL: req.body.applyURL,
-      companyLogo: {
-        data: req.file.filename,
-        contentType: req.file.mimetype,
-      },
-      posted_date: new Date(),
-    });
+    const newJob = req.body;
 
     // check if a file was uploaded
     if (req.file) {

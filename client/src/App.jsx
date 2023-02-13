@@ -10,6 +10,10 @@ import SignIn from "./pages/SignIn";
 import PostAJob from "./pages/PostAJob";
 import JobPost from "./pages/JobPost";
 import SignUp from "./pages/SignUp";
+import Pricing from "./partials/Pricing";
+import Cancel from "./pages/Cancel";
+// import Payment from "./partials/Payment";
+import Success from "./pages/Success";
 
 function App() {
   const location = useLocation();
@@ -36,6 +40,11 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/post-a-job" element={<PostAJob />} />
         <Route path="/job-post" element={<JobPost />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/cancel" element={<Cancel />} />
+        {/* <Route path="/checkout" element={<Payment />} /> */}
+        {/* <Route path="/checkout" element={<Checkout />} /> */}
       </Routes>
     </>
   );

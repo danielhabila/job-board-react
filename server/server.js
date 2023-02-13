@@ -5,10 +5,13 @@ import mongoose from "mongoose";
 import cors from "cors";
 import postedjob from "./models/postedJob.js";
 import upload from "./middleware/upload.js";
+import { Stripe } from "stripe";
 
-const app = express();
-app.use(bodyParser.json());
 dotenv.config();
+const app = express();
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+app.use(express.static("public"));
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(
   cors({
@@ -20,7 +23,8 @@ app.use(
 mongoose.set("strictQuery", false);
 mongoose.connect(`${process.env.MONGODB_URL}`);
 
-//Pull and display all jobs from DB
+// ----------------------------------------------------------------------------
+// Pull and display all jobs from DB
 app.get("/ReadJob", (req, res) => {
   postedjob.find({}, (err, result) => {
     if (err) {
@@ -31,6 +35,54 @@ app.get("/ReadJob", (req, res) => {
   });
 });
 
+// ----------------------------------------------------------------------------
+// Stripe checkout
+app.post("/checkout", async (req, res) => {
+  const { totalCost, quantity } = req.body;
+  console.log(totalCost, quantity);
+
+  // Search for an existing price with the same unit amount and currency
+  const existingPrices = await stripe.prices.list({
+    active: true,
+    unit_amount: totalCost * 100,
+    currency: "cad",
+  });
+
+  // Checking if price_id already exist in my stripe dashboard. This is to avoid creating multiple price_ids
+  let price;
+  if (existingPrices.data.length > 0) {
+    price = existingPrices.data[0].id;
+    console.log("found a matching Price_ID");
+  } else {
+    // Otherwise, create a new price
+    const pricing = await stripe.existingPrices.create({
+      unit_amount: totalCost * 100,
+      currency: "cad",
+      product: "prod_NLDJAAdnnhGPKJ",
+    });
+    price = pricing.id;
+    console.log("created a new Price_ID");
+  }
+
+  // note that the names will have to be exactly "price" and "quantity" cos thats how stripe likes it.
+  let lineItems = [{ price: price, quantity: quantity }];
+
+  // creating a session with the line items
+  const session = await stripe.checkout.sessions.create({
+    line_items: lineItems,
+    mode: "payment",
+    success_url: "http://localhost:5173/success",
+    cancel_url: "http://localhost:5173/cancel",
+  });
+
+  //sending created session url to the frontend
+  res.send(
+    JSON.stringify({
+      url: session.url,
+    })
+  );
+});
+// ----------------------------------------------------------------------------
 //Push jobs to DB
 app.post("/CreateJob", upload.single("companyLogo"), (req, res) => {
   try {
