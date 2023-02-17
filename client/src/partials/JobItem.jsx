@@ -14,7 +14,7 @@ function JobItem(props) {
         className={`px-4 py-6 hover:bg-gray-100 rounded-xl flex place-content-between cursor-pointer ${
           props.sticky && "bg-[#FDD663] hover:bg-[#FDD663]/80 rounded-xl"
         }`}
-        onClick={() => navigate(`${props.slug}`)}
+        onClick={() => navigate(`${props.link}`)}
       >
         <div className="sm:flex items-center space-y-3 sm:space-y-0 sm:space-x-5">
           {/*Company logo  */}
@@ -27,7 +27,7 @@ function JobItem(props) {
               <div className="mb-2">
                 <Link
                   className="text-lg text-gray-800 font-bold"
-                  to={props.slug}
+                  to={props.link}
                 >
                   {props.title}
                 </Link>

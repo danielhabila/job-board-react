@@ -1,13 +1,16 @@
 import mongoose from "mongoose";
 
-const postedJobSchema = new mongoose.Schema({
+const crawledJobSchema = new mongoose.Schema({
   jobTitle: {
     type: String,
     required: false,
   },
-
   companyName: {
     type: String,
+    required: false,
+  },
+  sticky: {
+    type: Boolean,
     required: false,
   },
   location: {
@@ -66,6 +69,6 @@ const postedJobSchema = new mongoose.Schema({
   posted_date: { type: Date, default: Date.now },
 });
 
-const postedjob = mongoose.model("postedjob", postedJobSchema);
+const crawledjob = mongoose.model("crawledjob", crawledJobSchema);
 
-export default postedjob;
+export default crawledjob;

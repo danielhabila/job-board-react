@@ -63,7 +63,7 @@ function PostAJob(props) {
   const [highlight, setHighlight] = useState(false);
 
   const [selectedAddOns, setSelectedAddOns] = useState([]);
-  const [totalCost, setTotalCost] = useState(499);
+  const [totalCost, setTotalCost] = useState(199);
 
   const handleAddOnSelection = (addOn) => {
     if (selectedAddOns.includes(addOn)) {
@@ -102,7 +102,7 @@ function PostAJob(props) {
         addOnCost += 49;
       }
     });
-    setTotalCost(499 + addOnCost);
+    setTotalCost(199 + addOnCost);
   }, [selectedAddOns]);
   //-----------------------------------------------------------------------------------------END
 
@@ -171,18 +171,6 @@ function PostAJob(props) {
       console.log(error.message);
     }
   };
-
-  // stripe.checkout.sessions
-  //   .retrieve(sessionId)
-  //   .then(function (session) {
-  //     session.on("checkout.session.completed", function (event) {
-  //       console.log("Payment successful: ", event);
-  //       alert("Payment successful! Thank you for your purchase.");
-  //     });
-  //   })
-  //   .catch(function (error) {
-  //     console.log("Error retrieving session: ", error);
-  //   });
 
   return (
     <main>

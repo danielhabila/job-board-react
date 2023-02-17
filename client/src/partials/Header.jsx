@@ -31,7 +31,7 @@ function Header() {
                   className="btn-sm text-white bg-myred  hover:bg-red-700 w-full shadow-sm"
                   to="/post-a-job"
                 >
-                  Post job <span className="max-md:hidden">- $499</span>
+                  Post job <span className="max-md:hidden">- $199</span>
                 </Link>
               </li>
             </ul>

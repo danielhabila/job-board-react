@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import postedjob from "./models/postedJob.js";
+import crawledjob from "./models/crawledjob.js";
 import upload from "./middleware/upload.js";
 import { Stripe } from "stripe";
 
@@ -20,14 +21,24 @@ app.use(
     credentials: true,
   })
 );
-
+//PostedJob DB
 mongoose.set("strictQuery", false);
 mongoose.connect(`${process.env.MONGODB_URL}`);
 
 // ----------------------------------------------------------------------------
 // Pull and display all jobs from DB
 app.get("/ReadJob", (req, res) => {
-  postedjob.find({}, (err, result) => {
+  crawledjob.find({}, (err, result) => {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+app.get("/:id", (req, res) => {
+  crawledjob.findOne({ _id: req.params.id }, (err, result) => {
     if (err) {
       res.json(err);
     } else {
