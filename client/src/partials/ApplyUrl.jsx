@@ -66,18 +66,25 @@ const ApplyUrl = () => {
                   London, UK / Remote friendly
                 </span>
               </li>
-              <li className="flex items-center">
-                <svg
-                  className="shrink-0 fill-gray-400 mr-3"
-                  width="16"
-                  height="12"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M15 0H1C.4 0 0 .4 0 1v10c0 .6.4 1 1 1h14c.6 0 1-.4 1-1V1c0-.6-.4-1-1-1Zm-1 10H2V2h12v8Z" />
-                  <circle cx="8" cy="6" r="2" />
-                </svg>
-                <span className="text-sm text-gray-600">$75K - $100K</span>
-              </li>
+
+              {crawledJobs.salaryPrecise || crawledJobs.salaryRange ? (
+                <li className="flex items-center">
+                  <svg
+                    className="shrink-0 fill-gray-400 mr-3"
+                    width="16"
+                    height="12"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M15 0H1C.4 0 0 .4 0 1v10c0 .6.4 1 1 1h14c.6 0 1-.4 1-1V1c0-.6-.4-1-1-1Zm-1 10H2V2h12v8Z" />
+                    <circle cx="8" cy="6" r="2" />
+                  </svg>
+                  <span className="text-sm text-gray-600">
+                    {crawledJobs.salaryPrecise || crawledJobs.salaryRange}
+                  </span>
+                </li>
+              ) : (
+                ""
+              )}
             </ul>
           </div>
 
@@ -98,10 +105,10 @@ const ApplyUrl = () => {
           <div className="flex flex-col text-center btn w-full space-y-4">
             <p className="text-md font-bold text-gray-800">Share this job:</p>
             <input
-              readonly=""
+              readOnly
               className="rounded-xl btn w-full"
               type="text"
-              value="https://remoteok.com/remote-jobs/remote-senior-front-end-developer-migaku-186757?ref=sh"
+              defaultValue="https://remoteok.com/remote-jobs/remote-senior-front-end-developer-migaku-186757?ref=sh"
             />
           </div>
           <div className="text-center">

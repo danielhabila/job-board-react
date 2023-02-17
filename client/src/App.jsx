@@ -14,6 +14,7 @@ import Pricing from "./partials/Pricing";
 import Cancel from "./pages/Cancel";
 // import Payment from "./partials/Payment";
 import Success from "./pages/Success";
+import FeedbackButton from "./partials/FeedbackButton";
 
 function App() {
   const location = useLocation();
@@ -33,7 +34,7 @@ function App() {
   }, [location.pathname]); // triggered on route change
 
   return (
-    <>
+    <div>
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
@@ -46,7 +47,8 @@ function App() {
         {/* <Route path="/checkout" element={<Payment />} /> */}
         {/* <Route path="/checkout" element={<Checkout />} /> */}
       </Routes>
-    </>
+      <FeedbackButton />
+    </div>
   );
 }
 

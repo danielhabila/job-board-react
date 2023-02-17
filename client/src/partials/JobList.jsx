@@ -42,14 +42,14 @@ function JobList() {
             <JobItem
               key={job._id}
               id={job._id}
-              // sticky={job.sticky}
+              sticky={job.sticky}
               title={job.jobTitle}
               link={`/jobDescription/${job._id}`}
               name={job.jobTitle}
-              // image={.image}
-              // tag1={job.tag1}
-              // tag2={job.tag2}
-              // date={job.date}
+              image={job.image}
+              tag1={"Full Time"}
+              tag2={"🇨🇦"}
+              // date={Date.now}
             />
           );
         })}
@@ -98,137 +98,5 @@ const items = [
     tag1: "Full Time",
     tag2: "🌎 Remote",
     date: "2h",
-  },
-  {
-    id: 3,
-    sticky: false,
-    title: "Remote Shopify Website Tester",
-    link: "/job-post",
-    name: "GitHub",
-    image: Image03,
-    tag1: "$100K - $170K",
-    tag2: "🇺🇸 NYC",
-    date: "4h",
-  },
-  {
-    id: 4,
-    sticky: false,
-    title: "Remote Senior Software Engineer",
-    link: "/job-post",
-    name: "GitHub",
-    image: Image04,
-    tag1: "$100K - $170K",
-    tag2: "🇺🇸 NYC",
-    date: "7h",
-  },
-  {
-    id: 5,
-    sticky: false,
-    title: "Senior Web App Designer",
-    link: "/job-post",
-    name: "Qonto",
-    image: Image01,
-    tag1: "Contract",
-    tag2: "🇬🇧 London, UK",
-    date: "12h",
-  },
-  {
-    id: 6,
-    sticky: false,
-    title: "Ruby on Rails Engineer",
-    link: "/job-post",
-    name: "Revolut",
-    image: Image05,
-    tag1: "Full Time",
-    tag2: "🌎 Remote",
-    date: "12h",
-  },
-  {
-    id: 7,
-    sticky: false,
-    title: "Senior Software Engineer Backend",
-    link: "/job-post",
-    name: "HSBC",
-    image: Image06,
-    tag1: "Full Time",
-    tag2: "🇮🇹 Milan, IT",
-    date: "20h",
-  },
-  {
-    id: 8,
-    sticky: false,
-    title: "React.js Software Developer",
-    link: "/job-post",
-    name: "Twitter",
-    image: Image07,
-    tag1: "Full Time",
-    tag2: "🌎 Remote",
-    date: "1d",
-  },
-  {
-    id: 9,
-    sticky: false,
-    title: "Senior Client Engineer (React & React Native)",
-    link: "/job-post",
-    name: "Medium",
-    image: Image08,
-    tag1: "$55K - $100K",
-    tag2: "🌎 Remote",
-    date: "1d",
-  },
-  {
-    id: 10,
-    sticky: false,
-    title: "Contract React Native Engineer",
-    link: "/job-post",
-    name: "Twitch",
-    image: Image09,
-    tag1: "Full Time",
-    tag2: "🌎 Remote",
-    date: "2d",
-  },
-  {
-    id: 11,
-    sticky: false,
-    title: "QA Automation Engineer",
-    link: "/job-post",
-    name: "Figma",
-    image: Image10,
-    tag1: "Full Time",
-    tag2: "🌎 Remote",
-    date: "2d",
-  },
-  {
-    id: 12,
-    sticky: false,
-    title: "Senior Marketing Program Manager",
-    link: "/job-post",
-    name: "Figma",
-    image: Image10,
-    tag1: "Full Time",
-    tag2: "🌎 Remote",
-    date: "2d",
-  },
-  {
-    id: 13,
-    sticky: false,
-    title: "Senior Product Designer",
-    link: "/job-post",
-    name: "Figma",
-    image: Image10,
-    tag1: "Full Time",
-    tag2: "🌎 Remote",
-    date: "2d",
-  },
-  {
-    id: 14,
-    sticky: false,
-    title: "Remote Cyber Security Analyst US",
-    link: "/job-post",
-    name: "Facebook",
-    image: Image11,
-    tag1: "$55K - $100K",
-    tag2: "🇺🇸 United States",
-    date: "2d",
   },
 ];

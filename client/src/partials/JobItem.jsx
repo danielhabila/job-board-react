@@ -18,8 +18,19 @@ function JobItem(props) {
       >
         <div className="sm:flex items-center space-y-3 sm:space-y-0 sm:space-x-5">
           {/*Company logo  */}
-          <div className="shrink-0">
-            <img src={props.image} width="56" height="56" alt={props.name} />
+          <div className="shrink-0 relative md:mr-10">
+            {props.image ? (
+              <img src={props.image} width="56" height="56" alt={props.name} />
+            ) : (
+              <div className="flex text-[#181818] items-center justify-center font-bold text-2xl rounded-full h-14 w-14 ring-2 ring-[#E5E7EA]">
+                {props.name
+                  .split(" ")
+                  .map((word) => word.charAt(0))
+                  .slice(0, 2)
+                  .join("")
+                  .toUpperCase()}
+              </div>
+            )}
           </div>
 
           <div className="grow lg:flex items-center justify-between space-y-5 lg:space-x-2 lg:space-y-0">
