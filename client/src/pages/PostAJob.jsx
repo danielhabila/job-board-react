@@ -3,9 +3,20 @@ import UploadImage from "../images/upload.jpg";
 import Footer from "../partials/Footer";
 import Header from "../partials/Header";
 import axios from "axios";
+import { NumericFormat } from "react-number-format";
+
 // import Pricing from "../partials/Pricing";
 
 function PostAJob(props) {
+  const [value, setValue] = useState();
+
+  function handleValueChange(e) {
+    setValue(e.target.value);
+    const amount = e.target.value;
+    console.log(amount);
+    console.log(typeof amount);
+  }
+
   const [selectedOption, setSelectedOption] = useState("exact");
   //salary option radio (either exact or range)
   const handleSalaryOptionChange = (option) => {
@@ -73,23 +84,6 @@ function PostAJob(props) {
     }
   };
   // -----------------------------------------------------------------------------------------START
-  // const checkout = async (event) => {
-  //   try {
-  //     // event.preventDefault();
-  //     console.log(totalCost);
-  //     const response = await axios.post("http://localhost:4000/checkout", {
-  //       totalCost,
-  //       quantity: 1,
-  //     });
-  //     if (response.data.url) {
-  //       window.location.assign(response.data.url); // Forwarding user to Stripe
-  //       return true; // return true if checkout was successful
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     return false; // return false if checkout was not successful
-  //   }
-  // };
 
   useEffect(() => {
     let addOnCost = 0;
@@ -197,7 +191,11 @@ function PostAJob(props) {
               </div>
 
               {/* Form */}
-              <form className="mb-12" onSubmit={handleSubmit}>
+              <form
+                className="mb-12"
+                onSubmit={handleSubmit}
+                // autoComplete="off"
+              >
                 <div className="divide-y divide-gray-200 -my-6">
                   {/* Group #1 */}
                   <div className="py-6">
@@ -330,30 +328,44 @@ function PostAJob(props) {
                         {/* ------------------------ */}
                         <div>
                           {selectedOption === "exact" ? (
-                            <input
+                            <NumericFormat
                               id="salary"
                               name="salaryPrecise"
-                              onChange={handleChange}
                               className="form-input w-full"
-                              type="text"
-                              placeholder="40,000"
+                              value={value}
+                              onChange={handleChange}
+                              format="0,0.00"
+                              decimalSeparator="."
+                              prefix={"$"}
+                              thousandSeparator={true}
+                              allowNegative={false}
                             />
                           ) : (
                             <div className="flex gap-2">
-                              <input
+                              <NumericFormat
                                 id="salary"
                                 name="min"
-                                onChange={handleChange}
-                                type="text"
                                 className="form-input block w-full "
+                                value={value}
+                                onChange={handleChange}
+                                format="0,0.00"
+                                decimalSeparator="."
+                                prefix={"$"}
+                                thousandSeparator={true}
+                                allowNegative={false}
                                 placeholder="Minimum per year"
                               />
-                              <input
+                              <NumericFormat
                                 id="salary"
                                 name="max"
-                                onChange={handleChange}
-                                type="text"
                                 className="form-input block w-full "
+                                value={value}
+                                onChange={handleChange}
+                                format="0,0.00"
+                                decimalSeparator="."
+                                prefix={"$"}
+                                thousandSeparator={true}
+                                allowNegative={false}
                                 placeholder="Maximum per year"
                               />
                             </div>

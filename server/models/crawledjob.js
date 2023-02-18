@@ -22,16 +22,16 @@ const crawledJobSchema = new mongoose.Schema({
     required: false,
   },
   salaryPrecise: {
-    type: Number,
+    type: String,
     required: false,
   },
   salaryRange: {
     min: {
-      type: Number,
+      type: String,
       required: false,
     },
     max: {
-      type: Number,
+      type: String,
       required: false,
     },
   },

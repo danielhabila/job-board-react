@@ -3,18 +3,10 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import JobItem from "../partials/JobItem";
 import Newsletter from "../partials/Newsletter";
-
+import moment from "moment";
 import Image01 from "../images/company-icon-01.svg";
 import Image02 from "../images/company-icon-02.svg";
 import Image03 from "../images/company-icon-03.svg";
-import Image04 from "../images/company-icon-04.svg";
-import Image05 from "../images/company-icon-05.svg";
-import Image06 from "../images/company-icon-06.svg";
-import Image07 from "../images/company-icon-07.svg";
-import Image08 from "../images/company-icon-08.svg";
-import Image09 from "../images/company-icon-09.svg";
-import Image10 from "../images/company-icon-10.svg";
-import Image11 from "../images/company-icon-11.svg";
 
 function JobList() {
   const [crawledJobs, setCrawledJobs] = useState([]);
@@ -45,11 +37,16 @@ function JobList() {
               sticky={job.sticky}
               title={job.jobTitle}
               link={`/jobDescription/${job._id}`}
-              name={job.jobTitle}
+              companyName={job.companyName && job.companyName}
               image={job.image}
-              tag1={"Full Time"}
-              tag2={"🇨🇦"}
-              // date={Date.now}
+              salaryPrecise={job.salaryPrecise && `${job.salaryPrecise}`}
+              salaryRangeMin={job.salaryRange && `${job.salaryRange.min}`}
+              salaryRangeMax={job.salaryRange && `${job.salaryRange.max}`}
+              commitment={
+                job.jobType ? `${job.jobType.commitment}` : "Full Time"
+              }
+              location={job.location ? `${job.location}` : "🇨🇦"}
+              date={moment(job.posted_date).fromNow()}
             />
           );
         })}
@@ -73,8 +70,8 @@ const items = [
     link: "/job-post",
     name: "Qonto",
     image: Image01,
-    tag1: "$75K - $100K",
-    tag2: "🇬🇧 London, UK",
+    commitment: "$75K - $100K",
+    location: "🇬🇧 London, UK",
     date: "22d",
   },
   {
@@ -84,8 +81,8 @@ const items = [
     link: "/job-post",
     name: "Vimeo",
     image: Image02,
-    tag1: "Full Time",
-    tag2: "🌎 Remote",
+    commitment: "Full Time",
+    location: "🌎 Remote",
     date: "2h",
   },
   {
@@ -95,8 +92,11 @@ const items = [
     link: "/job-post",
     name: "Robinhood",
     image: Image03,
-    tag1: "Full Time",
-    tag2: "🌎 Remote",
+    commitment: "Full Time",
+    location: "🌎 Remote",
     date: "2h",
   },
 ];
+
+//  salaryPrecise={job.salaryPrecise && `${job.salaryPrecise}`}
+// SalaryRange={job.salaryRange && `${job.salaryRange}`}

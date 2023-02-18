@@ -7,7 +7,10 @@ import postedjob from "./models/postedJob.js";
 import crawledjob from "./models/crawledjob.js";
 import upload from "./middleware/upload.js";
 import { Stripe } from "stripe";
+import session from "express-session";
+import { v4 as uuidv4 } from "uuid";
 
+const myUuid = uuidv4();
 dotenv.config();
 const app = express();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -27,26 +30,68 @@ mongoose.connect(`${process.env.MONGODB_URL}`);
 
 // ----------------------------------------------------------------------------
 // Pull and display all jobs from DB
-app.get("/ReadJob", (req, res) => {
-  crawledjob.find({}, (err, result) => {
-    if (err) {
-      res.json(err);
-    } else {
-      res.json(result);
-    }
-  });
+// app.get("/ReadJob", (req, res) => {
+//   crawledjob.find({}, (err, result) => {
+//     if (err) {
+//       res.json(err);
+//     } else {
+//       res.json(result);
+//     }
+//   });
+// });
+
+// app.get("/:id", (req, res) => {
+//   crawledjob.findOne({ _id: req.params.id }, (err, result) => {
+//     if (err) {
+//       res.json(err);
+//     } else {
+//       res.json(result);
+//     }
+//   });
+// });
+
+// ----------------------------------------------------------------------------
+app.get("/ReadJob", async (req, res) => {
+  try {
+    const crawledJobs = await crawledjob
+      .find({})
+      .sort({ posted_date: -1 })
+      .lean();
+    const postedJobs = await postedjob
+      .find({})
+      .sort({ posted_date: -1 })
+      .lean();
+    const jobs = [...postedJobs, ...crawledJobs];
+    res.json(jobs);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
-app.get("/:id", (req, res) => {
-  crawledjob.findOne({ _id: req.params.id }, (err, result) => {
-    if (err) {
-      res.json(err);
-    } else {
-      res.json(result);
-    }
-  });
+app.get("/:id", async (req, res) => {
+  try {
+    const crawledJob = await crawledjob.findOne({ _id: req.params.id }).lean();
+    const postedJob = await postedjob.findOne({ _id: req.params.id }).lean();
+    const job = crawledJob || postedJob;
+    res.json(job);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
+// ----------------------------------------------------------------------------
+
+app.use(
+  session({
+    genid: (req) => {
+      return uuidv4(); // generate unique ID for session
+    },
+    secret: process.env.MY_SESSION_KEY, // replace with your own secret key
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // set to false if not using HTTPS
+  })
+);
 // ----------------------------------------------------------------------------
 
 app.post("/CreateJob", upload.single("companyLogo"), async (req, res) => {
@@ -79,6 +124,7 @@ app.post("/CreateJob", upload.single("companyLogo"), async (req, res) => {
 
       posted_date: new Date(),
     };
+
     console.log("req.body: ", req.body);
     // console.log("req.file: ", req.file);
     console.log("totalCost is: ", req.body.totalCost);
@@ -90,6 +136,8 @@ app.post("/CreateJob", upload.single("companyLogo"), async (req, res) => {
         contentType: req.file.mimetype,
       };
     }
+
+    req.session.formData = formData;
     // ******************************************************************************************
     const { totalCost } = req.body;
     console.log(totalCost);
@@ -108,7 +156,7 @@ app.post("/CreateJob", upload.single("companyLogo"), async (req, res) => {
       console.log("found a matching Price_ID");
     } else {
       // Otherwise, create a new price
-      const pricing = await stripe.existingPrices.create({
+      const pricing = await stripe.prices.create({
         unit_amount: totalCost * 100,
         currency: "cad",
         product: "prod_NLDJAAdnnhGPKJ",
@@ -126,10 +174,7 @@ app.post("/CreateJob", upload.single("companyLogo"), async (req, res) => {
       mode: "payment",
       success_url: "http://localhost:5173/success",
       cancel_url: "http://localhost:5173/cancel",
-      metadata: {
-        // Pass form data to metadata for later retrieval
-        formData: JSON.stringify(formData),
-      },
+      client_reference_id: req.sessionID, // associate the session with the payment
     });
     // res.redirect(303, session.url);
     res.send(
@@ -165,27 +210,41 @@ app.post(
       response.status(400).send(`Webhook Error: ${err.message}`);
       return;
     }
+
     // ******************************************************************************************
+    console.log("event.type:", event.type);
     if (event.type === "checkout.session.completed") {
       // Retrieve metadata to get form data
       const session = event.data.object;
-      const metadata = session.metadata;
-      const formData = JSON.parse(metadata.formData);
 
-      const paymentIntentId = session.payment_intent;
+      const sessionId = session.client_reference_id;
+
+      const sessionData = await new Promise((resolve, reject) => {
+        request.sessionStore.get(sessionId, (err, data) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        });
+      });
+      console.log("content of sessionData:", sessionData);
+
+      const paymentIntentId = await session.payment_intent;
       const paymentIntent = await stripe.paymentIntents.retrieve(
         paymentIntentId
       );
-      console.log(paymentIntent);
+      console.log("paymentIntent content:", paymentIntent);
 
       if (paymentIntent.status === "succeeded") {
-        const newJob = new postedjob(formData);
+        const newJob = new postedjob(sessionData.formData);
 
         postedjob.create(newJob, (err, savedJob) => {
           if (err) {
             console.log(err);
           } else {
             console.log("Job created!");
+            // respond.status(201).json(savedJob);
           }
         });
       } else {

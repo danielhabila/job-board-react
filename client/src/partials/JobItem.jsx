@@ -20,10 +20,10 @@ function JobItem(props) {
           {/*Company logo  */}
           <div className="shrink-0 relative md:mr-10">
             {props.image ? (
-              <img src={props.image} width="56" height="56" alt={props.name} />
+              <img src={props.image} width="56" height="56" alt={""} />
             ) : (
               <div className="flex text-[#181818] items-center justify-center font-bold text-2xl rounded-full h-14 w-14 ring-2 ring-[#E5E7EA]">
-                {props.name
+                {props.title
                   .split(" ")
                   .map((word) => word.charAt(0))
                   .slice(0, 2)
@@ -44,7 +44,7 @@ function JobItem(props) {
                 </Link>
                 <div className="flex propss-start space-x-2">
                   <div className="text-sm text-gray-800 font-semibold mb-1">
-                    {props.name}
+                    {props.companyName}
                   </div>
                   {props.sticky && (
                     <svg
@@ -64,15 +64,32 @@ function JobItem(props) {
                   }`}
                   href="#0"
                 >
-                  {props.tag1}
+                  {props.commitment}
                 </a>
+
+                {props.salaryPrecise || props.salaryRangeMin ? (
+                  <a
+                    className={`text-xs text-gray-500 font-medium inline-flex px-2 py-0.5 hover:text-gray-600 rounded-lg m-1 whitespace-nowrap transition duration-150 ease-in-out ${
+                      props.sticky ? "bg-gray-50" : "bg-gray-100"
+                    }`}
+                    href="#0"
+                  >
+                    {props.salaryPrecise
+                      ? props.salaryPrecise
+                      : `${props.salaryRangeMin} -
+    ${props.salaryRangeMax}`}
+                  </a>
+                ) : (
+                  ""
+                )}
+
                 <a
                   className={`text-xs text-gray-500 font-medium inline-flex px-2 py-0.5 hover:text-gray-600 rounded-lg m-1 whitespace-nowrap transition duration-150 ease-in-out ${
                     props.sticky ? "bg-gray-50" : "bg-gray-100"
                   }`}
                   href="#0"
                 >
-                  {props.tag2}
+                  {props.location}
                 </a>
               </div>
             </div>
