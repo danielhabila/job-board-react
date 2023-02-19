@@ -9,7 +9,10 @@ import upload from "./middleware/upload.js";
 import { Stripe } from "stripe";
 import session from "express-session";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+import client from "@mailchimp/mailchimp_marketing";
 
+const port = 4000;
 const myUuid = uuidv4();
 dotenv.config();
 const app = express();
@@ -26,31 +29,49 @@ app.use(
 );
 //PostedJob DB
 mongoose.set("strictQuery", false);
-mongoose.connect(`${process.env.MONGODB_URL}`);
+mongoose
+  .connect(`${process.env.MONGODB_URL}`)
+  .then(() => console.log("Connected to mongodb successfully"))
+  .catch((err) => console.log("Mongodb connection failed", err));
+
+//M----------------------------------------------------------------------------
+app.post("/subscribe", async (req, res) => {
+  const { name, email } = req.body; // Get email address from form data
+
+  client.setConfig({
+    apiKey: process.env.MAILCHIMP_APIKEY,
+    server: "us13",
+  });
+
+  const addEmailToList = async (email, name) => {
+    try {
+      const response = await client.lists.addListMember("3c6b6dafc2", {
+        email_address: email,
+        status: "subscribed",
+        merge_fields: {
+          FNAME: name,
+        },
+      });
+      res.status(200).json({
+        success: true,
+        message:
+          "You've bee successfully added to the greatest list in the world 🤩.",
+      });
+      console.log(`Added ${email} to Mailchimp list!`);
+    } catch (error) {
+      console.error("Error adding subscriber:", error);
+      res.status(500).json({
+        success: false,
+        message:
+          "Something went wrong 🥹. Please let me know using the feedback button at the bottom right of your screen :)",
+      });
+    }
+  };
+  addEmailToList(email, name);
+});
 
 // ----------------------------------------------------------------------------
-// Pull and display all jobs from DB
-// app.get("/ReadJob", (req, res) => {
-//   crawledjob.find({}, (err, result) => {
-//     if (err) {
-//       res.json(err);
-//     } else {
-//       res.json(result);
-//     }
-//   });
-// });
 
-// app.get("/:id", (req, res) => {
-//   crawledjob.findOne({ _id: req.params.id }, (err, result) => {
-//     if (err) {
-//       res.json(err);
-//     } else {
-//       res.json(result);
-//     }
-//   });
-// });
-
-// ----------------------------------------------------------------------------
 app.get("/ReadJob", async (req, res) => {
   try {
     const crawledJobs = await crawledjob
@@ -261,6 +282,6 @@ app.post(
 
 // -------------------------------------------------------------------------------------------------------------
 
-app.listen(4000, () => {
-  console.log("Server listening on port 4000");
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
 });

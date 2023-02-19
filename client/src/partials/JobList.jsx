@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import JobItem from "../partials/JobItem";
 import Newsletter from "../partials/Newsletter";
 import moment from "moment";
-import Image01 from "../images/company-icon-01.svg";
-import Image02 from "../images/company-icon-02.svg";
-import Image03 from "../images/company-icon-03.svg";
 
 function JobList() {
   const [crawledJobs, setCrawledJobs] = useState([]);
+  // const [fetchImage, setFetchImage] = useState([]);
 
   useEffect(() => {
     fetchCrawledJobs();
   }, []);
 
-  const fetchCrawledJobs = async (event) => {
+  const fetchCrawledJobs = async () => {
     try {
       const res = await axios.get("http://localhost:4000/ReadJob");
       setCrawledJobs(res.data);
@@ -37,7 +34,7 @@ function JobList() {
               sticky={job.sticky}
               title={job.jobTitle}
               link={`/jobDescription/${job._id}`}
-              companyName={job.companyName && job.companyName}
+              companyName={job.companyName}
               image={job.image}
               salaryPrecise={job.salaryPrecise && `${job.salaryPrecise}`}
               salaryRangeMin={job.salaryRange && `${job.salaryRange.min}`}

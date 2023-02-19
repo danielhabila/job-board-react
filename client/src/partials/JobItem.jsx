@@ -22,13 +22,20 @@ function JobItem(props) {
             {props.image ? (
               <img src={props.image} width="56" height="56" alt={""} />
             ) : (
-              <div className="flex text-[#181818] items-center justify-center font-bold text-2xl rounded-full h-14 w-14 ring-2 ring-[#E5E7EA]">
-                {props.title
-                  .split(" ")
-                  .map((word) => word.charAt(0))
-                  .slice(0, 2)
-                  .join("")
-                  .toUpperCase()}
+              <div className="flex text-[#181818] items-center justify-center font-bold text-3xl rounded-full h-14 w-14 ring-2 ring-[#E5E7EA]">
+                {props.companyName
+                  ? props.companyName
+                      .split(" ")
+                      .map((word) => word.charAt(0))
+                      .slice(0, 2)
+                      .join("")
+                      .toUpperCase()
+                  : props.title
+                      .split(" ")
+                      .map((word) => word.charAt(0))
+                      .slice(0, 2)
+                      .join("")
+                      .toUpperCase()}
               </div>
             )}
           </div>

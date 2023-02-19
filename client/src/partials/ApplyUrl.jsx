@@ -139,6 +139,12 @@ const ApplyUrl = () => {
               </div>
             )}
           </div>
+          <button
+            className="ml-onclick-form"
+            onClick="ml('show', 'mCr6wq', true)"
+          >
+            Click here to show form
+          </button>
           <div className="text-center">
             <a className="text-sm  font-medium hover:underline" href="#0">
               Visit Website
