@@ -26,10 +26,16 @@ jobs:
             client/package-lock.json
             server/package-lock.json
 
-      - name: "Create env file"
-        run: |
-          cd server
-          echo "ENV_SECRETS=${{ secrets.ENV_SECRETS }}" > .env
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_ENV_SECRETS: ${{ secrets.ENV_SECRETS }}
+          directory: server
+
+      # - name: "Create env file"
+      #   run: |
+      #     cd server
+      #     echo "ENV_SECRETS=${{ secrets.ENV_SECRETS }}" > .env
 
       # echo "${{ secrets.ENV_SECRETS }}" > .env
       # echo "NEW_SECRET=${{ secrets.NEW_SECRET }}" >> .env // USE THIS TO ADD NEW SECRET TO EXISTING .ENV FILE
