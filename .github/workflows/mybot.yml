@@ -29,20 +29,21 @@ jobs:
       - name: "Create env file"
         run: |
           cd server
-          echo "${{ secrets.ENV_SECRETS }}" > .env
+          echo "ENV_SECRETS=${{ secrets.ENV_SECRETS }}" > .env
+      # echo "${{ secrets.ENV_SECRETS }}" > .env
       # echo "NEW_SECRET=${{ secrets.NEW_SECRET }}" >> .env // USE THIS TO ADD NEW SECRET TO EXISTING .ENV FILE
-      - name: Install client dependencies
-        run: |
-          cd client
-          npm install
-          npm run build
+      # - name: Install client dependencies
+      #   run: |
+      #     cd client
+      #     npm install
+      #     npm run build
 
-      - name: Install server dependencies
-        run: |
-          cd server
-          npm install
+      # - name: Install server dependencies
+      #   run: |
+      #     cd server
+      #     npm install
 
-      - name: Restart pm2
-        run: |
-          cd server
-          pm2 restart server.js
+      # - name: Restart pm2
+      #   run: |
+      #     cd server
+      #     pm2 restart server.js
