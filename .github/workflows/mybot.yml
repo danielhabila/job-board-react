@@ -22,12 +22,17 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - name: Install client dependencies
-        working-directory: client
-        run: npm i
-      - name: Build client
-        working-directory: client
-        run: npm run build
-      - name: Install server dependencies
-        working-directory: server
-        run: npm i
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install Dependencies
+        run: |
+          cd client
+          npm install
+          cd ../server
+          npm install
+      - name: Build and Deploy
+        run: |
+          cd client
+          npm run build
+          cd ../server
+          pm2 restart
