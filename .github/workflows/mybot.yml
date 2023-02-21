@@ -29,13 +29,12 @@ jobs:
       - name: "Create env file"
         run: |
           cd server
-          echo MONGODB_URL=${{ secrets.MONGODB_URL }} > .env
-          echo MAILCHIMP_APIKEY=${{ secrets.MAILCHIMP_APIKEY }} > .env
-          echo MY_SESSION_KEY=${{ secrets.MY_SESSION_KEY }} > .env
-          echo STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_PUBLISHABLE_KEY }} > .env
-          echo STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} > .env
-          echo STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} > .env
-          echo WEBHOOK_ENDPOINT_SECRET=${{ secrets.WEBHOOK_ENDPOINT_SECRET }} > .env
+          echo MONGODB_URL=${{ secrets.MONGODB_URL }} >> .env
+          echo MAILCHIMP_APIKEY=${{ secrets.MAILCHIMP_APIKEY }} >> .env
+          echo MY_SESSION_KEY=${{ secrets.MY_SESSION_KEY }} >> .env
+          echo STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_PUBLISHABLE_KEY }} >> .env
+          echo STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} >> .env
+          echo WEBHOOK_ENDPOINT_SECRET=${{ secrets.WEBHOOK_ENDPOINT_SECRET }} >> .env
 
       # echo "${{ secrets.ENV_SECRETS }}" > .env
       # echo "NEW_SECRET=${{ secrets.NEW_SECRET }}" >> .env // USE THIS TO ADD NEW SECRET TO EXISTING .ENV FILE
