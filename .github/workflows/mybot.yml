@@ -14,7 +14,6 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x]
-        working-directory: client
 
     steps:
       - uses: actions/checkout@v3
@@ -23,12 +22,22 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: |
-          npm i --prefix client
-          npm run build --prefix client
-          cd ../server
-          npm i --prefix server
-          pm2 restart server.js
+      - name: Install client dependencies
+        run: |
+          cd job-board-react/client
+          npm install
+      - name: Build client
+        run: |
+          cd job-board-react/client
+          npm run build
+      - name: Install server dependencies
+        run: |
+          cd job-board-react/server
+          npm install
+      - name: Restart server
+        run: |
+          cd job-board-react/server
+          pm2 restart
 
 #  name: Install client dependencies
 #         run: npm i --prefix client
