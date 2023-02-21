@@ -29,7 +29,7 @@ jobs:
       - name: "Create env file"
         run: |
           cd server
-          echo "${{ secrets.ENV_FILE }}" > .env
+          echo ${{ secrets.ENV_FILE }} > .env
         # echo MONGODB_URL=${{ secrets.MONGODB_URL }} > .env
 
       # echo "${{ secrets.ENV_SECRETS }}" > .env
