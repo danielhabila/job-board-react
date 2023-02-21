@@ -26,33 +26,25 @@ jobs:
             client/package-lock.json
             server/package-lock.json
 
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_DEBUG: false
-          envkey_SOME_API_KEY: ""
-          envkey_ENV_SECRETS: ${{ secrets.ENV_SECRETS }}
-          directory: server
-
-      # - name: "Create env file"
-      #   run: |
-      #     cd server
-      #     echo "ENV_SECRETS=${{ secrets.ENV_SECRETS }}" > .env
+      - name: "Create env file"
+        run: |
+          cd server
+          echo MONGODB_URL=${{ secrets.MONGODB_URL }} > .env
 
       # echo "${{ secrets.ENV_SECRETS }}" > .env
       # echo "NEW_SECRET=${{ secrets.NEW_SECRET }}" >> .env // USE THIS TO ADD NEW SECRET TO EXISTING .ENV FILE
-      # - name: Install client dependencies
-      #   run: |
-      #     cd client
-      #     npm install
-      #     npm run build
+      - name: Install client dependencies
+        run: |
+          cd client
+          npm install
+          npm run build
 
-      # - name: Install server dependencies
-      #   run: |
-      #     cd server
-      #     npm install
+      - name: Install server dependencies
+        run: |
+          cd server
+          npm install
 
-      # - name: Restart pm2
-      #   run: |
-      #     cd server
-      #     pm2 restart server.js
+      - name: Restart pm2
+        run: |
+          cd server
+          pm2 restart server.js
