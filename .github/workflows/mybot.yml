@@ -4,9 +4,9 @@ on:
   push:
     branches: ["main"]
 
+
 jobs:
   build:
-
     runs-on: self-hosted
 
     strategy:
@@ -21,7 +21,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: [18.x]
+          node-version: ${{ matrix.node-version }}
           cache: "npm"
       - name: Install Dependencies
         run: |
