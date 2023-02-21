@@ -19,7 +19,7 @@ function JobPost() {
     const fetchCrawledJob = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:4000/${id}`);
+        const res = await axios.get(`/api/${id}`);
         setCrawledJobs(res.data);
         setLoading(false);
       } catch (err) {

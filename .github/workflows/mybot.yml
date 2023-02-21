@@ -22,10 +22,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: |
-          cd client
-          npm i
-          npm run build
-          cd ../server
-          npm i
-          pm2 restart
+      - name: Install client dependencies
+        run: npm i --prefix client
+      - name: Build client
+        run: npm run build --prefix client
+      - name: Install server dependencies
+        run: npm i --prefix server
+      - name: Restart server
+        run: pm2 restart server.js

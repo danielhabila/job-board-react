@@ -15,7 +15,7 @@ function JobList() {
     const fetchCrawledJobs = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:4000/ReadJob");
+        const res = await axios.get("/api/ReadJob");
         setCrawledJobs(res.data);
         setLoading(false);
       } catch (err) {

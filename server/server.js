@@ -9,13 +9,12 @@ import upload from "./middleware/upload.js";
 import { Stripe } from "stripe";
 import session from "express-session";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
 import client from "@mailchimp/mailchimp_marketing";
 
 const port = 4000;
+const app = express();
 const myUuid = uuidv4();
 dotenv.config();
-const app = express();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 app.use(express.static("public"));
 app.use("/webhook", bodyParser.raw({ type: "*/*" }));
@@ -72,7 +71,7 @@ app.post("/subscribe", async (req, res) => {
 
 // ----------------------------------------------------------------------------
 
-app.get("/ReadJob", async (req, res) => {
+app.get("/api/ReadJob", async (req, res) => {
   try {
     const crawledJobs = await crawledjob
       .find({})
@@ -89,7 +88,7 @@ app.get("/ReadJob", async (req, res) => {
   }
 });
 
-app.get("/:id", async (req, res) => {
+app.get("/api/:id", async (req, res) => {
   try {
     const crawledJob = await crawledjob.findOne({ _id: req.params.id }).lean();
     const postedJob = await postedjob.findOne({ _id: req.params.id }).lean();
@@ -115,7 +114,7 @@ app.use(
 );
 // ----------------------------------------------------------------------------
 
-app.post("/CreateJob", upload.single("companyLogo"), async (req, res) => {
+app.post("/api/CreateJob", upload.single("companyLogo"), async (req, res) => {
   try {
     // retrieve the data sent in the request body
     const formData = {
@@ -212,7 +211,7 @@ app.post("/CreateJob", upload.single("companyLogo"), async (req, res) => {
 
 //  -------------------------------------------------------------------------------------------------------------
 app.post(
-  "/webhook",
+  "/api/webhook",
   bodyParser.raw({ type: "application/json" }),
   async (request, response) => {
     // Verifying the event actually comes from stripe

@@ -17,7 +17,7 @@ const ApplyUrl = () => {
   useEffect(() => {
     const fetchCrawledJob = async () => {
       try {
-        const res = await axios.get(`http://localhost:4000/${id}`);
+        const res = await axios.get(`api/${id}`);
         setCrawledJobs(res.data);
       } catch (err) {
         console.error(err);

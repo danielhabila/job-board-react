@@ -152,7 +152,7 @@ function PostAJob(props) {
       }
       formDataWithFile.append("totalCost", totalCost);
 
-      const response = await axios.post("/CreateJob", formDataWithFile, {
+      const response = await axios.post("/api/CreateJob", formDataWithFile, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
