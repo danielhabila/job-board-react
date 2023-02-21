@@ -21,7 +21,7 @@ function Pricing() {
     try {
       event.preventDefault();
       console.log(totalCost);
-      const response = await axios.post("http://localhost:4000/checkout", {
+      const response = await axios.post("/api/checkout", {
         totalCost,
         quantity: 1,
       });

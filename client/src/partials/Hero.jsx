@@ -36,7 +36,7 @@ function Hero() {
             </h1>
             <p className="text-lg text-gray-500 mb-8">
               This is the number one destination to find your next aviation job
-              and for employers to source the best talents.
+              and for employers to source the best talents. 💪🏾
             </p>
             {/* Button + Avatars */}
           </div>
