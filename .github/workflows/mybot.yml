@@ -30,6 +30,7 @@ jobs:
         run: |
           cd server
           echo "ENV_SECRETS=${{ secrets.ENV_SECRETS }}" > .env
+
       # echo "${{ secrets.ENV_SECRETS }}" > .env
       # echo "NEW_SECRET=${{ secrets.NEW_SECRET }}" >> .env // USE THIS TO ADD NEW SECRET TO EXISTING .ENV FILE
       # - name: Install client dependencies
