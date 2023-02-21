@@ -222,7 +222,7 @@ app.post(
       event = stripe.webhooks.constructEvent(
         request.body,
         sig,
-        process.env.ENDPOINT_SECRET
+        process.env.WEBHOOK_ENDPOINT_SECRET
       );
       console.log("webhook signature verified");
     } catch (err) {

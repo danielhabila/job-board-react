@@ -20,10 +20,16 @@ function Header() {
             <ul className="flex grow justify-end flex-wrap items-center ">
               <li className="underline">
                 <Link
-                  className="text-sm font-medium px-3 lg:px-5 py-2 flex items-center"
+                  className="hidden max-md:flex text-sm font-medium px-3 lg:px-5 py-2 items-center"
                   to="/community"
                 >
-                  Join community
+                  Community
+                </Link>
+                <Link
+                  className="hidden md:flex text-sm font-medium px-3 lg:px-5 py-2  items-center"
+                  to="/community"
+                >
+                  Join Community
                 </Link>
               </li>
               <li className="ml-3">
@@ -31,7 +37,8 @@ function Header() {
                   className="btn-sm text-white bg-myred  hover:bg-red-700 w-full shadow-sm"
                   to="/post-a-job"
                 >
-                  Post job <span className="max-md:hidden">- $199</span>
+                  Post job
+                  {/* <span className="max-md:hidden">- $199</span> */}
                 </Link>
               </li>
             </ul>
