@@ -30,7 +30,7 @@ app.use(
 //PostedJob DB
 mongoose.set("strictQuery", false);
 mongoose
-  .connect(`${process.env.MONGODB_URL}`)
+  .connect(process.env.MONGODB_URL)
   .then(() => console.log("Connected to mongodb successfully"))
   .catch((err) => console.log("Mongodb connection failed", err));
 

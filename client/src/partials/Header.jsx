@@ -17,13 +17,13 @@ function Header() {
           {/* Desktop navigation */}
           <nav className="flex grow">
             {/* Desktop sign in links */}
-            <ul className="flex grow justify-end flex-wrap items-center">
-              <li>
+            <ul className="flex grow justify-end flex-wrap items-center ">
+              <li className="underline">
                 <Link
                   className="text-sm font-medium px-3 lg:px-5 py-2 flex items-center"
-                  to="/signin"
+                  to="/community"
                 >
-                  Sign in
+                  Join community
                 </Link>
               </li>
               <li className="ml-3">

@@ -2,7 +2,6 @@ import React from "react";
 import Header from "../partials/Header";
 import Hero from "../partials/Hero";
 import JobList from "../partials/JobList";
-import Testimonials from "../partials/Testimonials";
 import Footer from "../partials/Footer";
 
 function Home() {

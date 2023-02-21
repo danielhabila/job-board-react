@@ -2,12 +2,17 @@ import React, { useState, useEffect, useRef } from "react";
 import CompanyIcon from "../images/company-icon-08.svg";
 import axios from "axios";
 import { useParams, useLocation } from "react-router-dom";
+import {
+  ClockIcon,
+  CurrencyDollarIcon,
+  MapPinIcon,
+} from "@heroicons/react/24/outline";
 
 const ApplyUrl = () => {
   const { id } = useParams();
   const location = useLocation();
 
-  const [crawledJobs, setCrawledJobs] = useState("");
+  const [crawledJobs, setCrawledJobs] = useState(false);
 
   useEffect(() => {
     const fetchCrawledJob = async () => {
@@ -42,72 +47,73 @@ const ApplyUrl = () => {
         data-sticky-wrap
       >
         <div className="relative bg-gray-50 rounded-xl border border-gray-200 p-5">
-          <div className="text-center mb-6">
-            <img
-              className="inline-flex mb-2"
-              src={CompanyIcon}
-              width="72"
-              height="72"
-              alt="Company 08"
-            />
-            <h2 className="text-lg font-bold text-gray-800">Medium Inc.</h2>
-          </div>
+          {!crawledJobs.companyLogo ? (
+            <div className="text-center mb-4">
+              <img
+                className="inline-flex mb-2"
+                src={crawledJobs.companyLogo}
+                width="72"
+                height="72"
+                alt="Company 08"
+              />
+            </div>
+          ) : (
+            <div className="mx-auto bg-[#3f3c3c] rounded-full h-20 w-20 ring-2 ring-[#E5E7EA]"></div>
+          )}
+          <h2 className="text-center text-lg font-bold text-gray-800 mb-5">
+            {crawledJobs && crawledJobs.company}
+          </h2>
+          {crawledJobs ? (
+            <div className="flex justify-center md:justify-start mb-5">
+              <ul className="inline-flex flex-col space-y-2">
+                {crawledJobs.jobType ? (
+                  <li className="flex items-center">
+                    <ClockIcon className="w-5 mr-3" />
 
-          <div className="flex justify-center md:justify-start mb-5">
-            <ul className="inline-flex flex-col space-y-2">
-              <li className="flex items-center">
-                <svg
-                  className="shrink-0 fill-gray-400 mr-3"
-                  width="14"
-                  height="14"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M9.707 4.293a1 1 0 0 0-1.414 1.414L10.586 8H2V2h3a1 1 0 1 0 0-2H2a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h8.586l-2.293 2.293a1 1 0 1 0 1.414 1.414l4-4a1 1 0 0 0 0-1.414l-4-4Z" />
-                </svg>
-                <span className="text-sm text-gray-600">24 August, 2024</span>
-              </li>
-              {crawledJobs.location ? (
-                <li className="flex items-center">
-                  <svg
-                    className="shrink-0 fill-gray-400 mr-3"
-                    width="14"
-                    height="16"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle cx="7" cy="7" r="2" />
-                    <path d="M6.3 15.7c-.1-.1-4.2-3.7-4.2-3.8C.7 10.7 0 8.9 0 7c0-3.9 3.1-7 7-7s7 3.1 7 7c0 1.9-.7 3.7-2.1 5-.1.1-4.1 3.7-4.2 3.8-.4.3-1 .3-1.4-.1Zm-2.7-5 3.4 3 3.4-3c1-1 1.6-2.2 1.6-3.6 0-2.8-2.2-5-5-5S2 4.2 2 7c0 1.4.6 2.7 1.6 3.7 0-.1 0-.1 0 0Z" />
-                  </svg>
-                  <span className="text-sm text-gray-600">
-                    {crawledJobs.location}
-                  </span>
-                </li>
-              ) : (
-                ""
-              )}
+                    <span className="text-sm text-gray-600 flex flex-col">
+                      {crawledJobs.jobType.commitment}
+                      {" | "}
+                      {crawledJobs.jobType.flexibility}
+                      {" | "}
+                      {crawledJobs.jobType.contract}
+                    </span>
+                  </li>
+                ) : (
+                  ""
+                )}
+                {crawledJobs.location ? (
+                  <div>
+                    <li className="flex items-center">
+                      <MapPinIcon className="w-5 mr-3" />
+                      <span className="text-sm text-gray-600">
+                        {crawledJobs.location}
+                      </span>
+                    </li>
+                  </div>
+                ) : (
+                  ""
+                )}
 
-              {crawledJobs.salaryPrecise || crawledJobs.salaryRange ? (
-                <li className="flex items-center">
-                  <svg
-                    className="shrink-0 fill-gray-400 mr-3"
-                    width="16"
-                    height="12"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M15 0H1C.4 0 0 .4 0 1v10c0 .6.4 1 1 1h14c.6 0 1-.4 1-1V1c0-.6-.4-1-1-1Zm-1 10H2V2h12v8Z" />
-                    <circle cx="8" cy="6" r="2" />
-                  </svg>
-                  <span className="text-sm text-gray-600">
-                    {crawledJobs.salaryPrecise
-                      ? crawledJobs.salaryPrecise
-                      : `${crawledJobs.salaryRange.min} -
+                {crawledJobs.location ? (
+                  <div className="">
+                    <li className="flex items-center">
+                      <CurrencyDollarIcon className="w-5 mr-3" />
+                      <span className="text-sm text-gray-600">
+                        {crawledJobs.salaryPrecise
+                          ? crawledJobs.salaryPrecise
+                          : `${crawledJobs.salaryRange.min} -
                         ${crawledJobs.salaryRange.max}`}
-                  </span>
-                </li>
-              ) : (
-                ""
-              )}
-            </ul>
-          </div>
+                      </span>
+                    </li>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </ul>
+            </div>
+          ) : (
+            ""
+          )}
 
           <div className="max-w-xs mx-auto mb-5">
             <a
@@ -134,17 +140,12 @@ const ApplyUrl = () => {
               onClick={copyURL}
             />
             {isCopied && (
-              <div className="bg-green-200 text-green-800 py-1 px-1 rounded-md absolute right-0 mr-4 mt-8">
-                Copied
+              <div className="bg-green-100 text-green-900 py-1 px-1 rounded-md absolute right-0 mr-4 mt-8">
+                Copied!
               </div>
             )}
           </div>
-          <button
-            className="ml-onclick-form"
-            onClick="ml('show', 'mCr6wq', true)"
-          >
-            Click here to show form
-          </button>
+
           <div className="text-center">
             <a className="text-sm  font-medium hover:underline" href="#0">
               Visit Website
