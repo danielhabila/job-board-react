@@ -9,9 +9,11 @@ jobs:
 
     runs-on: self-hosted
 
-    # strategy:
-    #   matrix:
-    #     node-version: [18.x]
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    working-directory: ./job-board-react
 
     steps:
         run:  cd client
@@ -21,16 +23,14 @@ jobs:
         with:
           node-version: [18.x]
           cache: "npm"
-      - name: Install client dependencies
+      - name: Install Dependencies
         run: |
-          cd job-board-react/client
+          cd client
           npm install
-      - name: Build client
-        run: |
-          cd job-board-react/client
           npm run build
+          
       - name: Install server dependencies
         run: |
-          cd job-board-react/server
+          cd server
           npm install
-
+          pm2 restart
