@@ -22,17 +22,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: |
-          cd /home/dandman/actions-runner/_work/job-board-react/job-board-react/client
-          npm install
-          cd /home/dandman/actions-runner/_work/job-board-react/job-board-react/client
-          npm run build
-          cd /home/dandman/actions-runner/_work/job-board-react/job-board-react/server
-          npm install
-      # - name: Restart server
-      #   run: |
-      #     cd /home/dandman/actions-runner/_work/job-board-react/job-board-react/server
-      #     pm2 restart
+      - name: Install client dependencies
+        working-directory: ./client
+        run: npm i
+      - name: Build client
+        working-directory: ./client
+        run: npm run build
+      - name: Install server dependencies
+        working-directory: ./server
+        run: npm i
 
       #     name: Install client dependencies
       #   run: npm i --prefix client
