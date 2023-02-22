@@ -32,17 +32,17 @@ function Newsletter() {
   };
 
   return (
-    <div className="relative text-center px-4 py-6 group">
+    <div className="relative text-center p-6 group">
       <div
         className="absolute inset-0 rounded-xl bg-gray-50 border border-gray-200 -z-10"
         aria-hidden="true"
       />
       {/* max-md:hidden */}
-      <div className="text-2xl font-bold mb-5">
+      <div className="text-l md:text-2xl font-bold mb-5">
         Get a weekly email with the latest aviation jobs.
       </div>
-      <form className="inline-flex max-w-lg " onSubmit={handleSubmit}>
-        <div className="flex flex-col sm:flex-row justify-center max-w-xs mx-auto sm:max-w-none">
+      <form className="sm:inline-flex sm:max-w-lg " onSubmit={handleSubmit}>
+        <div className="flex flex-col sm:flex-row justify-center  ">
           <input
             type="text"
             className="form-input py-1.5 w-full mb-2 sm:mb-0 sm:mr-2"

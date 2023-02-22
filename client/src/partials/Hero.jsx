@@ -31,10 +31,13 @@ function Hero() {
           {/* Hero content */}
           <div className="max-w-3xl text-center md:text-left">
             {/* Copy */}
-            <h1 className="h1 font-inter mb-6">
+            <h1 className="text-3xl md:text-6xl font-extrabold font-inter mb-6">
               Join the best aviation community
             </h1>
-            <p className="text-lg text-gray-500 mb-8">
+            {/* <h1 className="hidden max-md:flex h3 font-inter mb-6">
+              Join the best aviation community
+            </h1> */}
+            <p className="text-sm md:text-lg text-gray-500 mb-8">
               This is the number one destination to find your next aviation job
               and for employers to source the best talents.
             </p>

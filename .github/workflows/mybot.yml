@@ -26,7 +26,7 @@ jobs:
             client/package-lock.json
             server/package-lock.json
 
-      - name: "Create env file"
+      - name: Create env file
         run: |
           cd server
           echo MONGODB_URL=${{ secrets.MONGODB_URL }} >> .env
@@ -36,8 +36,6 @@ jobs:
           echo STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} >> .env
           echo WEBHOOK_ENDPOINT_SECRET=${{ secrets.WEBHOOK_ENDPOINT_SECRET }} >> .env
 
-      # echo "${{ secrets.ENV_SECRETS }}" > .env
-      # echo "NEW_SECRET=${{ secrets.NEW_SECRET }}" >> .env // USE THIS TO ADD NEW SECRET TO EXISTING .ENV FILE
       - name: Install client dependencies
         run: |
           cd client
@@ -55,3 +53,11 @@ jobs:
           pm2 restart server.js
 
 # For the env files ">" means overwrite the current env file with new one, while ">>" means add to existing env
+
+# - name: Create env file
+#   run: |
+#     cd server
+#     for secret in MONGODB_URL MAILCHIMP_APIKEY MY_SESSION_KEY STRIPE_PUBLISHABLE_KEY STRIPE_SECRET_KEY WEBHOOK_ENDPOINT_SECRET
+#     do
+#       echo "${secret}=${{ secrets[${secret}] }}" >> .env
+#     done

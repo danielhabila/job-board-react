@@ -27,6 +27,33 @@ function JobList() {
   }, []);
   // --------------------------------------------------------------
 
+  moment.locale("custom", {
+    relativeTime: {
+      future: "in %s",
+      past: "%s ago",
+      s: "now",
+      ss: "now",
+      m: "now",
+      mm: "%dmin",
+      h: "h",
+      hh: "%d h",
+      d: "1d",
+      dd: "%dd",
+      w: "1w",
+      ww: "%dw",
+      M: "1mos",
+      MM: "%dmos",
+      y: "a year",
+      yy: "%d years",
+    },
+  });
+
+  // const formattedDate = moment(job.posted_date).locale("custom").fromNow();
+
+  // console.log(formattedDate.replace("ago", "d"));
+
+  // --------------------------------------------------------------
+
   return (
     <div>
       {loading ? (
@@ -42,7 +69,9 @@ function JobList() {
       ) : (
         // Render your content here
         <div className="pb-8 md:pb-16">
-          <h2 className="text-3xl font-bold font-inter mb-10">Latest jobs</h2>
+          <h2 className="md:text-3xl text-xl font-bold font-inter mb-10">
+            Latest jobs
+          </h2>
           {/* List container */}
           <div className="flex flex-col">
             {crawledJobs.map((job) => {
@@ -62,7 +91,10 @@ function JobList() {
                     job.jobType ? `${job.jobType.commitment}` : "Full Time"
                   }
                   location={job.location ? `${job.location}` : "🇨🇦"}
-                  date={moment(job.posted_date).fromNow()}
+                  date={moment(job.posted_date)
+                    .locale("custom")
+                    .fromNow()
+                    .replace("ago", "")}
                 />
               );
             })}
