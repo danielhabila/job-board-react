@@ -50,11 +50,19 @@ const Bubbles = (props) => {
       {/* ----------------------------------------------------------------------------------- */}
       <aside className="mb-8 md:mb-0 md:w-64 lg:w-72 md:ml-12 lg:ml-20 md:shrink-0 md:order-1 ">
         <div className="relative bg-gray-50 rounded-xl border border-gray-200 p-5">
-          <div className="text-center">
-            <a className="text-sm font-medium underline" href="#0">
-              Visit Website
-            </a>
-          </div>
+          {props.crawledJobs.websiteUrl &&
+          props.crawledJobs.websiteUrl !== "" ? (
+            <div className="text-center">
+              <a
+                className="text-sm font-medium underline"
+                href={props.crawledJobs.websiteUrl}
+              >
+                Visit Website
+              </a>
+            </div>
+          ) : (
+            ""
+          )}
 
           <div className="max-w-xs mx-auto my-4">
             <a

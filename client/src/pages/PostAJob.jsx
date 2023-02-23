@@ -89,11 +89,11 @@ function PostAJob(props) {
     let addOnCost = 0;
     selectedAddOns.forEach((addOn) => {
       if (addOn === "24 hour stick") {
-        addOnCost += 99;
-      } else if (addOn === "1 week stick") {
-        addOnCost += 199;
-      } else if (addOn === "highlight") {
         addOnCost += 49;
+      } else if (addOn === "1 week stick") {
+        addOnCost += 99;
+      } else if (addOn === "highlight") {
+        addOnCost += 39;
       }
     });
     setTotalCost(199 + addOnCost);
@@ -182,10 +182,10 @@ function PostAJob(props) {
 
             <div className="flex-1 py-8">
               <div className="mb-10">
-                <h1 className="text-4xl font-extrabold font-inter mb-2">
+                <h1 className="text-2xl md:text-4xl  font-extrabold font-inter mb-2">
                   Post a job
                 </h1>
-                <div className="text-gray-500">
+                <div className="text-gray-500 text-sm">
                   Find the best talent passionate about aviation.
                 </div>
               </div>
@@ -297,7 +297,8 @@ function PostAJob(props) {
                           className="block text-sm font-medium mb-1"
                           htmlFor="salary"
                         >
-                          Salary (CAD)<span className="text-rose-500">*</span>
+                          Salary (CAD)
+                          {/* <span className="text-rose-500">*</span> */}
                         </label>
                         {/*  ---------------------*/}
                         <div className="my-2 space-x-4 flex">
@@ -407,7 +408,8 @@ function PostAJob(props) {
                           className="block text-sm font-medium mb-1"
                           htmlFor="website-url"
                         >
-                          Website URL <span className="text-red-500">*</span>
+                          Website URL
+                          {/* <span className="text-red-500">*</span> */}
                         </label>
                         <input
                           id="websiteURL"
@@ -481,7 +483,7 @@ function PostAJob(props) {
                               onChange={handleFileSelect}
                             />
                           </div>
-                          <button
+                          {/* <button
                             type="button"
                             className="ml-2 px-3 py-1.5 text-sm font-medium text-gray-500 rounded-full hover:bg-gray-100 hover:text-gray-600 transition duration-150 ease-in-out cursor-pointer"
                             onClick={() => {
@@ -489,8 +491,11 @@ function PostAJob(props) {
                             }}
                           >
                             Remove
-                          </button>
+                          </button> */}
                         </div>
+                        <p className="text-xs text-gray-500 italic mt-1">
+                          JPG or PNG only.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -518,7 +523,7 @@ function PostAJob(props) {
                         <div className="flex justify-between items-center">
                           <div>
                             <div className="text-sm text-gray-800 font-medium mb-1">
-                              Stick your post to stay on top for 24 hours (+$99)
+                              Stick your post to stay on top for 24 hours (+49)
                             </div>
                             <div className="text-sm text-gray-500 italic">
                               4x more views
@@ -564,7 +569,7 @@ function PostAJob(props) {
                         <div className="flex justify-between items-center">
                           <div>
                             <div className="text-sm text-gray-800 font-medium mb-1">
-                              Stick your post to stay on top for 1 week (+$299)
+                              Stick your post to stay on top for 1 week (+$99)
                             </div>
                             <div className="text-sm text-gray-500 italic">
                               4x more views
@@ -610,7 +615,7 @@ function PostAJob(props) {
                         <div className="flex justify-between items-center">
                           <div>
                             <div className="text-sm text-gray-800 font-medium mb-1">
-                              Highlight your post in yellow (+$49)
+                              Highlight your post in yellow (+$39)
                             </div>
                             <div className="text-sm text-gray-500 italic">
                               2x more views

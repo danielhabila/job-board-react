@@ -18,7 +18,7 @@ function Header() {
           <nav className="flex grow">
             {/* Desktop sign in links */}
             <ul className="flex grow justify-end flex-wrap items-center ">
-              <li className="underline">
+              {/* <li className="underline">
                 <Link
                   className="hidden max-md:flex text-sm font-medium lg:px-5 py-2 items-center"
                   to="/community"
@@ -31,7 +31,7 @@ function Header() {
                 >
                   Join Community
                 </Link>
-              </li>
+              </li> */}
               <li className="ml-3">
                 <Link
                   className="btn-sm text-white bg-myred  hover:bg-red-700 w-full shadow-sm"

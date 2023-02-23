@@ -38,8 +38,7 @@ function Hero() {
               Join the best aviation community
             </h1> */}
             <p className="text-sm md:text-lg text-gray-500 mb-8">
-              This is the number one destination to find your next aviation job
-              and for employers to source the best talents.
+              This is the number one destination to find your next aviation job.
             </p>
             {/* Button + Avatars */}
           </div>

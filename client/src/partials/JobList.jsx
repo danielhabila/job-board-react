@@ -88,7 +88,9 @@ function JobList() {
                   salaryRangeMin={job.salaryRange && `${job.salaryRange.min}`}
                   salaryRangeMax={job.salaryRange && `${job.salaryRange.max}`}
                   commitment={
-                    job.jobType ? `${job.jobType.commitment}` : "Full Time"
+                    crawledJobs.jobType && crawledJobs.jobType.commitment !== ""
+                      ? `${job.jobType.commitment}`
+                      : "Full Time"
                   }
                   location={job.location ? `${job.location}` : "🇨🇦"}
                   date={moment(job.posted_date)
