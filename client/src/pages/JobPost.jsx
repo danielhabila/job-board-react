@@ -8,6 +8,7 @@ import ApplyUrl from "../partials/ApplyUrl";
 import parse from "html-react-parser";
 import { useParams } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+import Bubbles from "../partials/Bubbles";
 
 function JobPost() {
   const { id } = useParams();
@@ -58,7 +59,7 @@ function JobPost() {
                     data-sticky-container
                   >
                     {/* Sidebar */}
-                    <ApplyUrl />
+                    {/* <ApplyUrl /> */}
 
                     {/* Main content */}
                     <div className="md:grow">
@@ -66,24 +67,29 @@ function JobPost() {
                       <div className="pb-8">
                         <div className="mb-4">
                           <Link
-                            className="text-myred font-bold text-lg tracking-normal"
+                            className="text-myred font-semibold text-lg tracking-normal"
                             to="/"
                           >
-                            <span className="   tracking-normal">&lt;-</span>{" "}
-                            All Jobs
+                            <span className="  tracking-normal">&lt;-</span> All
+                            Jobs
                           </Link>
                         </div>
-                        <h1 className="text-4xl font-extrabold font-inter mb-10">
-                          {crawledJobs && parse(crawledJobs.jobTitle)}
-                          {/* {crawledJobs.jobTitle} */}
-                        </h1>
+                        <div className="my-8">
+                          <h1 className=" md:text-3xl text-xl font-extrabold font-inter">
+                            {crawledJobs && crawledJobs.jobTitle}
+                          </h1>
+                          <h3 className=" md:text-xl text-sm font-semibold font-inter">
+                            {/* {crawledJobs && parse(crawledJobs.companyName)} */}
+                            {crawledJobs && crawledJobs.companyName}
+                          </h3>
+                        </div>
                         {/* Job description */}
                         <div className="space-y-8 mb-8">
                           <div>
-                            <h3 className="text-xl font-bold text-gray-800 mb-3">
+                            <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-3">
                               The Role
                             </h3>
-                            <div className="text-gray-500 space-y-3">
+                            <div className="text-gray-500 space-y-3 text-sm md:text-base">
                               {crawledJobs && parse(crawledJobs.jobDescription)}
                               {/* {crawledJobs.jobDescription} */}
                             </div>
@@ -91,8 +97,17 @@ function JobPost() {
                         </div>
                       </div>
 
-                      <div>
-                        <Newsletter />
+                      <div className="hidden md:flex">
+                        <Newsletter heading={"Send me job updates!"} />
+                      </div>
+                    </div>
+                    {/* Sidebar/ApplyUrl */}
+                    <div>
+                      <div className="md:hidden">
+                        <Bubbles crawledJobs={crawledJobs} />
+                      </div>
+                      <div className="hidden md:flex">
+                        <ApplyUrl />
                       </div>
                     </div>
                   </div>

@@ -129,11 +129,13 @@ const ApplyUrl = () => {
             </a>
           </div>
 
-          <div className="flex flex-col text-center btn w-full space-y-4">
-            <p className="text-md font-bold text-gray-800">Share this job:</p>
+          <div className="flex flex-col text-center w-full space-y-4 ">
+            <p className="text-md font-semibold text-gray-800">
+              Share this job:
+            </p>
             <input
               readOnly
-              className="rounded-xl cursor-pointer btn w-full"
+              className="rounded-3xl cursor-pointer btn w-full"
               type="text"
               defaultValue={location.pathname}
               ref={inputRef}

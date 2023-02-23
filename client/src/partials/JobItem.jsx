@@ -42,7 +42,7 @@ function JobItem(props) {
         </div>
 
         {/* Middle Content */}
-        <div className="mx-6 grow lg:flex items-center justify-between space-y-5 lg:space-x-2 lg:space-y-0 truncate overflow-ellipsis">
+        <div className="mx-5 grow lg:flex items-center justify-between space-y-5 lg:space-x-2 lg:space-y-0 truncate overflow-ellipsis">
           <div>
             <div className="mb-2">
               <Link
@@ -89,7 +89,7 @@ function JobItem(props) {
                   {props.salaryPrecise
                     ? props.salaryPrecise
                     : `${props.salaryRangeMin} -
-    ${props.salaryRangeMax}`}
+                   ${props.salaryRangeMax}`}
                 </a>
               ) : (
                 ""

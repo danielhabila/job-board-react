@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function Newsletter() {
+function Newsletter(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -32,15 +32,13 @@ function Newsletter() {
   };
 
   return (
-    <div className="relative text-center p-6 group">
+    <div className="relative text-center p-6 group w-full">
       <div
         className="absolute inset-0 rounded-xl bg-gray-50 border border-gray-200 -z-10"
         aria-hidden="true"
       />
       {/* max-md:hidden */}
-      <div className="text-l md:text-2xl font-bold mb-5">
-        Get a weekly email with the latest aviation jobs.
-      </div>
+      <div className="text-l md:text-2xl font-bold mb-5">{props.heading}</div>
       <form className="sm:inline-flex sm:max-w-lg " onSubmit={handleSubmit}>
         <div className="flex flex-col sm:flex-row justify-center  ">
           <input
@@ -61,7 +59,7 @@ function Newsletter() {
             className="btn-sm text-white bg-black hover:bg-black/80 shadow-sm whitespace-nowrap"
             type="submit"
           >
-            Sign me up
+            Sign me up!
           </button>
         </div>
       </form>
