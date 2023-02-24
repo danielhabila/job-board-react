@@ -15,7 +15,7 @@ const port = 4000;
 const app = express();
 const myUuid = uuidv4();
 dotenv.config();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_LIVE_SECRET_KEY);
 app.use(express.static("public"));
 app.use("/webhook", bodyParser.raw({ type: "*/*" }));
 app.use(bodyParser.json());
