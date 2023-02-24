@@ -86,7 +86,7 @@ const Bubbles = (props) => {
               readOnly
               className="rounded-3xl cursor-pointer btn w-full"
               type="text"
-              defaultValue={location.pathname}
+              defaultValue={"https://okaviator.com" + location.pathname}
               ref={inputRef}
               onClick={copyURL}
             />

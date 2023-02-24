@@ -24,17 +24,17 @@ jobs:
           cache: "npm"
           cache-dependency-path: |
             client/package-lock.json
-            server/package-lock.json
+          # server/package-lock.json
 
-      - name: Create env file
-        run: |
-          cd server
-          echo MONGODB_URL=${{ secrets.MONGODB_URL }} >> .env
-          echo MAILCHIMP_APIKEY=${{ secrets.MAILCHIMP_APIKEY }} >> .env
-          echo MY_SESSION_KEY=${{ secrets.MY_SESSION_KEY }} >> .env
-          echo STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_PUBLISHABLE_KEY }} >> .env
-          echo STRIPE_LIVE_SECRET_KEY=${{ secrets.STRIPE_LIVE_SECRET_KEY }} >> .env
-          echo WEBHOOK_ENDPOINT_SECRET=${{ secrets.WEBHOOK_ENDPOINT_SECRET }} >> .env
+      # - name: Create env file
+      #   run: |
+      #     cd server
+      #     echo MONGODB_URL=${{ secrets.MONGODB_URL }} >> .env
+      #     echo MAILCHIMP_APIKEY=${{ secrets.MAILCHIMP_APIKEY }} >> .env
+      #     echo MY_SESSION_KEY=${{ secrets.MY_SESSION_KEY }} >> .env
+      #     echo STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_PUBLISHABLE_KEY }} >> .env
+      #     echo STRIPE_LIVE_SECRET_KEY=${{ secrets.STRIPE_LIVE_SECRET_KEY }} >> .env
+      #     echo WEBHOOK_ENDPOINT_SECRET=${{ secrets.WEBHOOK_ENDPOINT_SECRET }} >> .env
 
       - name: Install client dependencies
         run: |
@@ -42,15 +42,15 @@ jobs:
           npm install
           npm run build
 
-      - name: Install server dependencies
-        run: |
-          cd server
-          npm install
+      # - name: Install server dependencies
+      #   run: |
+      #     cd server
+      #     npm install
 
-      - name: Restart pm2
-        run: |
-          cd server
-          pm2 restart server.js
+      # - name: Restart pm2
+      #   run: |
+      #     cd server
+      #     pm2 restart server.js
 
 # For the env files ">" means overwrite the current env file with new one, while ">>" means add to existing env
 
