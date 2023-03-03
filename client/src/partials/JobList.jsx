@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import JobItem from "../partials/JobItem";
 import Newsletter from "../partials/Newsletter";
 import moment from "moment";
@@ -113,42 +112,3 @@ function JobList() {
 }
 
 export default JobList;
-
-const items = [
-  {
-    id: 0,
-    sticky: true,
-    title: "Engineering Manager Developer Experience",
-    link: "/job-post",
-    name: "Qonto",
-    image: "Qonto",
-    commitment: "$75K - $100K",
-    location: "🇬🇧 London, UK",
-    date: "22d",
-  },
-  {
-    id: 1,
-    sticky: false,
-    title: "Software Engineer Backend",
-    link: "/job-post",
-    name: "Vimeo",
-
-    commitment: "Full Time",
-    location: "🌎 Remote",
-    date: "2h",
-  },
-  {
-    id: 2,
-    sticky: false,
-    title: "Senior Site Reliability Engineer",
-    link: "/job-post",
-    name: "Robinhood",
-
-    commitment: "Full Time",
-    location: "🌎 Remote",
-    date: "2h",
-  },
-];
-
-//  salaryPrecise={job.salaryPrecise && `${job.salaryPrecise}`}
-// SalaryRange={job.salaryRange && `${job.salaryRange}`}

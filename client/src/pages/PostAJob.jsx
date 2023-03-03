@@ -14,7 +14,6 @@ function PostAJob(props) {
     setValue(e.target.value);
     const amount = e.target.value;
     console.log(amount);
-    console.log(typeof amount);
   }
 
   const [selectedOption, setSelectedOption] = useState("exact");
