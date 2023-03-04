@@ -13,7 +13,6 @@ import client from "@mailchimp/mailchimp_marketing";
 
 const port = 4000;
 const app = express();
-const myUuid = uuidv4();
 dotenv.config();
 const stripe = new Stripe(process.env.STRIPE_LIVE_SECRET_KEY);
 app.use(express.static("public"));
@@ -161,39 +160,32 @@ app.post("/api/CreateJob", upload.single("companyLogo"), async (req, res) => {
     // ******************************************************************************************
     const { totalCost } = req.body;
     console.log(totalCost);
+    const unit_amount = totalCost * 100;
 
-    // Search for an existing price with the same unit amount and currency
-    const existingPrices = await stripe.prices.list({
-      active: true,
-      unit_amount: totalCost * 100,
-      currency: "cad",
-    });
+    // let lineItems = [{ price: price, quantity: 1 }]; //this example is for a set price
+    let lineItems = [
+      {
+        price_data: {
+          unit_amount,
+          currency: "cad",
+          product_data: {
+            name: "Pay ok/aviator",
+            description: "60-day job post.",
+            // images: []
+          },
+        },
+        quantity: 1,
+      },
+    ];
 
-    // Checking if price_id already exist in my stripe dashboard. This is to avoid creating multiple price_ids
-    let price;
-    if (existingPrices.data.length > 0) {
-      price = existingPrices.data[0].id;
-      console.log("found a matching Price_ID");
-    } else {
-      // Otherwise, create a new price
-      const pricing = await stripe.prices.create({
-        unit_amount: totalCost * 100,
-        currency: "cad",
-        product: "prod_NLDJAAdnnhGPKJ",
-      });
-      price = pricing.id;
-      console.log("created a new Price_ID");
-    }
-
-    // note that the names will have to be exactly "price" and "quantity" cos thats how stripe likes it.
-    let lineItems = [{ price: price, quantity: 1 }];
+    const domainUrl = "http://localhost:5173"; // use localhost as default
 
     // creating a session with the line items
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
-      success_url: "http://localhost:5173/success",
-      cancel_url: "http://localhost:5173/cancel",
+      success_url: `${domainUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${domainUrl}/post-a-job`,
       client_reference_id: req.sessionID, // associate the session with the payment
     });
     // res.redirect(303, session.url);
